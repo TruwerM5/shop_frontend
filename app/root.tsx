@@ -6,10 +6,14 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
+import { useUserStore } from './stores/user.store';
 import Header from "./components/Header";
-
+import { baseHeaderLinks, userHeaderLinks } from './common/nav-links';
 import type { Route } from "./+types/root";
 import "./app.css";
+import { UserRole } from '../types/user';
+import Nav from './components/Nav';
+import type { NavLink } from '../types/nav';
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,6 +29,14 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const user = useUserStore((state) => state.user);
+  let navLinks: NavLink[] = [];
+  if(!user) {
+    navLinks = baseHeaderLinks;
+  } else if(user.role === UserRole.user) {
+    navLinks = userHeaderLinks;
+  }
+
   return (
     <html lang="en">
       <head>
@@ -34,7 +46,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Header />
+        <Header>
+          <Nav links={navLinks} />
+        </Header>
         {children}
         <ScrollRestoration />
         <Scripts />
