@@ -26,18 +26,3 @@ export const baseHeaderLinks: NavItem[] =  [
         type: 'link',
     },
 ];
-
-export const userHeaderLinks: NavItem[] = [
-    {
-        id: 1,
-        title: 'Orders',
-        href: '/orders',
-        type: 'link',
-    },
-    {
-        id: 2,
-        title: 'Profile',
-        href: '/profile',
-        type: 'link',
-    }
-];

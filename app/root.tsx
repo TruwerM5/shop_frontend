@@ -8,13 +8,11 @@ import {
 } from "react-router";
 import { useUserStore } from './stores/user.store';
 import Header from "./components/Header";
-import { baseHeaderLinks, userHeaderLinks } from './common/nav-links';
 import type { Route } from "./+types/root";
 import "./app.css";
-import { UserRole } from '../types/user';
 import Nav from './components/Nav';
-import type { NavItem, NavLink } from '../types/nav';
 import { useEffect, StrictMode } from "react";
+import { useUserNav } from './hooks/useUserNav';
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -30,10 +28,9 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const user = useUserStore((state) => state.user);
-  const logout = useUserStore((state) => state.logout);
   const checkIsAuthenticated = useUserStore((state) => state.checkIfAuthenticated);
 
+  const navLinks = useUserNav();
   useEffect(() => {
     async function fetchUser() {
       await checkIsAuthenticated();
@@ -42,26 +39,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
     fetchUser();
   },[checkIsAuthenticated]);
 
-  let navLinks: NavItem[] = [];
-  if(!user) {
-    navLinks = baseHeaderLinks;
-  } else if(user.role === UserRole.user) {
-    navLinks = userHeaderLinks.concat([
-      {
-        id: userHeaderLinks.length + 1,
-        title: 'Logout',
-        type: 'button',
-        action: logout,
-      }
-    ])
-  }
-
-  async function handleNavButtonAction(action = '') {
-    switch(action) {
-      case('logout'):
-        await logout();
-    }
-  }
 
   return (
     <StrictMode>
@@ -74,7 +51,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </head>
         <body>
           <Header>
-            <Nav links={navLinks} buttonAction={handleNavButtonAction} />
+            <Nav links={navLinks} />
           </Header>
           {children}
           <ScrollRestoration />

@@ -2,11 +2,10 @@ import type { NavItem } from '../../types/nav';
 import { Link } from 'react-router';
 
 export default function Nav({ 
-    links, 
-    buttonAction 
-}: { links: NavItem[],
-    buttonAction: () => Promise<void> | void;
-}) {
+    links,
+}: { 
+    links: NavItem[]
+}) {    
     return (
         <nav className="nav">
             <ul className="nav-list flex justify-center items-center gap-6">
