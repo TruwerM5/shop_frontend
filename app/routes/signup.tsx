@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { Link } from "react-router";
 import { useUserStore } from "~/stores/user.store";
-import type { SignUpUserDto } from "../../types/user";
+import type { SignUpUserDto } from '../../types/user';
+import AuthForm from '~/components/AuthForm';
 
 export default function SignUpPage() {
-
     const signUp = useUserStore((state) => state.signUp);
 
     const [signUpData, setSignUpData] = useState<SignUpUserDto>({
@@ -13,60 +13,74 @@ export default function SignUpPage() {
         password: '',
     });
 
-    async function onSubmit() {
+    function handleChange(key: keyof SignUpUserDto, value: string) {
+            setSignUpData({
+                ...signUpData,
+                [key]: value,
+            });
+        }
+
+    async function submit() {
         await signUp(signUpData);
     }
 
     return (
-        <div className="page auth-page">
-            <div className="auth-form max-w-100 mx-auto p-4 rounded-xl shadow-2xl">
-                <div className="auth-form__head flex justify-between border-b mb-4">
-                    <h5 className="auth-title text-2xl">Sign Up</h5>
-                    <Link to="/login" className="auth-form__link">Login</Link>
-                </div>
-                <div className="auth-form__body flex flex-col gap-4">
-                    <input
-                        type="text"
-                        name="user_name"
-                        id="user_name"
-                        value={signUpData.name}
-                        onChange={(e) => {
-                            setSignUpData({...signUpData, name: e.target.value})
-                        }}
-                        className="auth-form__input"
-                        placeholder="Name"
-                    />
-                    <input
-                        type="email"
-                        name="user_email"
-                        id="user_email"
-                        value={signUpData.email}
-                        onChange={(e) => {
-                            setSignUpData({...signUpData, email: e.target.value})
-                        }}
-                        className="auth-form__input"
-                        placeholder="Email"
-                    />
-                    <input
-                        type="password"
-                        name="user_password"
-                        id="user_password"
-                        value={signUpData.password}
-                        onChange={(e) => {
-                            setSignUpData({...signUpData, password: e.target.value})
-                        }}
-                        className="auth-form__input"
-                        placeholder="Password"
-                    />
-                    <button 
-                        onClick={onSubmit}
-                        type="button"
-                        className="auth-form__submit-btn primary-button"
-                    >
-                        Sign Up
-                    </button>
-                </div>     
-            </div>
+        <div className="page auth-page w-full h-full">
+            <AuthForm 
+                head={<SignUpFormHeader />}
+                body={<SignUpFormBody signUpData={signUpData} onChange={handleChange} />}
+                onSubmit={submit}
+                action='Sign Up'
+            />
         </div>
+    )
+}
+
+function SignUpFormHeader() {
+    return (
+        <>
+            <h5 className="auth-form__title">Sign Up</h5>
+            <Link to="/login" className="auth-form__link">Sign In</Link>
+        </>
+    )
+}
+
+function SignUpFormBody({ 
+    signUpData,
+    onChange,
+}: {
+    signUpData: SignUpUserDto;
+    onChange: (key: keyof SignUpUserDto, value: string) => void;
+}) {
+    return (
+        <>
+            <input
+                type="text"
+                name="user_name"
+                id="user_name"
+                value={signUpData.name}
+                onChange={(e) => onChange('name', e.target.value)}
+                className="auth-form__input"
+                placeholder="Name"
+            />
+            <input
+                type="email"
+                name="user_email"
+                id="user_email"
+                value={signUpData.email}
+                onChange={(e) => onChange('email', e.target.value)}
+                className="auth-form__input"
+                placeholder="Email"
+            />
+            <input
+                type="password"
+                name="user_password"
+                id="user_password"
+                value={signUpData.password}
+                onChange={(e) => onChange('password', e.target.value)}
+                className="auth-form__input"
+                placeholder="Password"
+            />
+        </>
     )
 }

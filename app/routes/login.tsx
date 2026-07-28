@@ -12,8 +12,6 @@ export default function LoginPage() {
         password: '',
     });
 
-    const [isSuccessSubmit, setIsSuccessSubmit] = useState(false);
-
     function handleChange(key: keyof LogInUserDto, value: string) {
         setLoginData({
             ...loginData,
@@ -22,21 +20,16 @@ export default function LoginPage() {
     }
 
     async function submit() {
-        try {
-            await login(loginData);
-            setIsSuccessSubmit(true);
-        } catch {
-            return null
-        }
+        await login(loginData);
     }
 
     return (
-        <div className="page auth-page">
+        <div className="page auth-page w-full h-full">
             <AuthForm
                 head={<LoginFormHeader />}
-                body={<LoginFormBody loginData={loginData} onChange={handleChange} onSubmit={submit} />}
-                isSuccessSubmit={isSuccessSubmit}
-                redirect='/'
+                body={<LoginFormBody loginData={loginData} onChange={handleChange} />}
+                onSubmit={submit}
+                action='Sign In'
             />
         </div>
     )
@@ -45,7 +38,7 @@ export default function LoginPage() {
 function LoginFormHeader() {
     return (
         <>
-            <h5 className="auth-title text-2xl">Sign In</h5>
+            <h5 className="auth-form__title">Sign In</h5>
             <Link to="/signup" className="auth-form__link">Sign Up</Link>
         </>
     )
@@ -54,11 +47,9 @@ function LoginFormHeader() {
 function LoginFormBody({ 
     loginData,
     onChange,
-    onSubmit,
 }: {
     loginData: LogInUserDto;
     onChange: (key: keyof LogInUserDto, value: string) => void;
-    onSubmit: () => Promise<undefined | null>
 }) {
     return (
         <>
@@ -80,13 +71,6 @@ function LoginFormBody({
                 className="auth-form__input"
                 placeholder="Password"
             />
-            <button
-                onClick={onSubmit}
-                type="button"
-                className="auth-form__submit-btn primary-button"
-            >
-                Sign In
-            </button>
         </>
     )
 }

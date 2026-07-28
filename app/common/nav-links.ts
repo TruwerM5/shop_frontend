@@ -13,16 +13,4 @@ export const baseHeaderLinks: NavItem[] =  [
         href: '/cart',
         type: 'link',
     },
-    {
-        id: 3,
-        title: 'Sign In',
-        href: '/login',
-        type: 'link',
-    },
-    {
-        id: 4,
-        title: 'Sign Up',
-        href: '/signup',
-        type: 'link',
-    },
 ];
