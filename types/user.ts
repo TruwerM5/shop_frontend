@@ -17,8 +17,22 @@ export enum UserRole {
     admin = 'admin'
 }
 
+export interface LogInUserDto {
+    email: string;
+    password: string;
+}
+export interface SignUpUserDto extends LogInUserDto {
+    name: string;
+}
+
+export interface LogoutUserDto {
+    success: boolean;
+}
 export interface UserStore {
     isAuthenticated: boolean;
     user: ApiUserPayload;
     checkIfAuthenticated: () => Promise<void>;
+    signUp: (data: SignUpUserDto) => Promise<void>;
+    login: (data: LogInUserDto) => Promise<void>;
+    logout: () => Promise<void>;
 }

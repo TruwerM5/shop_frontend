@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+
+.primary-button {
+    @apply bg-blue-500 hover:bg-blue-600 text-white py-2 transition-colors;
+    width: 100%;
+    border-radius: 5px;
+}

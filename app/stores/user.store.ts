@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import { getUserPayload } from '~/api/auth.api';
+import { getUserPayload, signUpUser, loginUser, logoutUser } from '~/api/auth.api';
 import type { UserStore } from '../../types/user';
+import { redirect } from 'react-router';
 
 export const useUserStore = create<UserStore>((set) => ({
     isAuthenticated: false,
@@ -11,15 +12,58 @@ export const useUserStore = create<UserStore>((set) => ({
             if(!data) {
                 throw new Error('Error getting user');
             }
-            if(data.userId) {
-                set({
-                    isAuthenticated: true,
-                    user: data,
-                });
-            }
+            set({
+                isAuthenticated: true,
+                user: data,
+            });
             
         } catch {
-            console.error('Error getting user');
+            set({
+                isAuthenticated: false,
+                user: null,
+            });
+        }
+    },
+    signUp: async (data) => {
+        try {
+            const { data: responseData } = await signUpUser(data);
+            if(!data) {
+                throw new Error('Sign Up Error');
+            }
+            // set({
+            //     isAuthenticated: true,
+            //     user: responseData,
+            // });
+        } catch {
+
+        }
+    },
+    login: async (data) => {
+        try {
+            const { data: responseData } = await loginUser(data);
+            if(!data) {
+                throw new Error('Login Error');
+            }
+            set({
+                isAuthenticated: true,
+                user: responseData,
+            });
+        } catch {
+
+        }
+    },
+    logout: async () => {
+        try {
+            const { data } = await logoutUser();
+            if(!data.success) {
+                throw new Error('Logout Error');
+            }
+            set({
+                isAuthenticated: false,
+                user: null,
+            })
+        } catch {
+
         }
     },
 }));

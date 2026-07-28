@@ -13,7 +13,8 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { UserRole } from '../types/user';
 import Nav from './components/Nav';
-import type { NavLink } from '../types/nav';
+import type { NavItem, NavLink } from '../types/nav';
+import { useEffect, StrictMode } from "react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -30,30 +31,57 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const user = useUserStore((state) => state.user);
-  let navLinks: NavLink[] = [];
+  const logout = useUserStore((state) => state.logout);
+  const checkIsAuthenticated = useUserStore((state) => state.checkIfAuthenticated);
+
+  useEffect(() => {
+    async function fetchUser() {
+      await checkIsAuthenticated();
+    }
+
+    fetchUser();
+  },[checkIsAuthenticated]);
+
+  let navLinks: NavItem[] = [];
   if(!user) {
     navLinks = baseHeaderLinks;
   } else if(user.role === UserRole.user) {
-    navLinks = userHeaderLinks;
+    navLinks = userHeaderLinks.concat([
+      {
+        id: userHeaderLinks.length + 1,
+        title: 'Logout',
+        type: 'button',
+        action: logout,
+      }
+    ])
+  }
+
+  async function handleNavButtonAction(action = '') {
+    switch(action) {
+      case('logout'):
+        await logout();
+    }
   }
 
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <Header>
-          <Nav links={navLinks} />
-        </Header>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
+    <StrictMode>
+      <html lang="en">
+        <head>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <Meta />
+          <Links />
+        </head>
+        <body>
+          <Header>
+            <Nav links={navLinks} buttonAction={handleNavButtonAction} />
+          </Header>
+          {children}
+          <ScrollRestoration />
+          <Scripts />
+        </body>
+      </html>
+    </StrictMode>
   );
 }
 
