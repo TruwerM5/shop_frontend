@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import Button from './Button';
 import "@styles/auth-form.css";
 
@@ -19,8 +19,12 @@ export default function AuthForm({
     const navigate = useNavigate();
 
     async function handleSubmit() {
-        await onSubmit();
-        navigate(redirect ?? '/');
+        try {
+            await onSubmit();
+            navigate(redirect ?? '/');
+        } catch(err) {
+            console.log(err);
+        }
     }
 
     function goBack() {
@@ -39,6 +43,21 @@ export default function AuthForm({
                     onClick={handleSubmit}
                 />
             </form>
+                {action === 'Sign In' ? (
+                    <p className="auth-form__text">
+                        Don't have an account yet? {' '}
+                        <Link to='/signup' className="link">
+                            Sign Up
+                        </Link>    
+                    </p>
+                ): (
+                    <p className="auth-form__text">
+                        Already have an account? {' '}
+                        <Link to='/login' className="link">
+                            Sign In
+                        </Link>
+                    </p>
+                )}
             <button 
                 onClick={goBack}
                 className="auth-form__go-back-button"

@@ -14,7 +14,7 @@ export default function Button({
         "button_primary": isPrimary,
     })
     return (
-        <button onClick={onClick} className={buttonClassName}>
+        <button type="button" onClick={onClick} className={buttonClassName}>
             {text}
         </button>
     )

@@ -26,21 +26,12 @@ export default function LoginPage() {
     return (
         <div className="page auth-page w-full h-full">
             <AuthForm
-                head={<LoginFormHeader />}
+                head={<h5 className="auth-form__title">Sign In</h5>}
                 body={<LoginFormBody loginData={loginData} onChange={handleChange} />}
                 onSubmit={submit}
                 action='Sign In'
             />
         </div>
-    )
-}
-
-function LoginFormHeader() {
-    return (
-        <>
-            <h5 className="auth-form__title">Sign In</h5>
-            <Link to="/signup" className="auth-form__link">Sign Up</Link>
-        </>
     )
 }
 
