@@ -4,6 +4,7 @@ import type { SignUpUserDto } from '../../types/user';
 import AuthForm from '~/components/AuthForm';
 import InputText from '~/components/InputText';
 import { validateSignUpData } from '~/helpers/validate-user';
+import { ValidationError } from "~/helpers";
 
 export default function SignUpPage() {
     const signUp = useUserStore((state) => state.signUp);
@@ -14,19 +15,30 @@ export default function SignUpPage() {
         password: '',
     });
 
+    const [signUpErrors, setSignUpErros] = useState<SignUpUserDto>({
+        email: '',
+        name: '',
+        password: '',
+    });
+
     function handleChange(key: keyof SignUpUserDto, value: string) {
-            setSignUpData({
-                ...signUpData,
+            setSignUpData((currentState) => ({
+                ...currentState,
                 [key]: value,
-            });
+            }));
         }
 
     async function submit() {
         try {
-            const validated = validateSignUpData(signUpData);
-            console.log(validated.success);
+            validateSignUpData(signUpData);
             await signUp(signUpData);
         } catch (err) {
+            if(err instanceof ValidationError) {
+                setSignUpErros((currentState) => ({
+                    ...currentState,
+                    [err.fieldName]: err.message,
+                }))
+            }
             throw err;
         } 
     }
@@ -45,6 +57,7 @@ export default function SignUpPage() {
                         value={signUpData.name}
                         label='Your name'
                         onChange={(value) => handleChange('name', value)}
+                        errorMessage={signUpErrors.name}
                     />
                     <InputText
                         type='email'
@@ -53,6 +66,7 @@ export default function SignUpPage() {
                         value={signUpData.email}
                         label='Email'
                         onChange={(value) => handleChange('email', value)}
+                        errorMessage={signUpErrors.email}
                     />
                     <InputText 
                         type='password'
@@ -61,6 +75,7 @@ export default function SignUpPage() {
                         value={signUpData.password}
                         label='Password'
                         onChange={(value) => handleChange('password', value)}
+                        errorMessage={signUpErrors.password}
                     />
                 </>
                 }

@@ -6,6 +6,7 @@ interface InputTextProps {
     value: string;
     label: string;
     onChange: (value: string) => void;
+    errorMessage: string;
     type?: 'text' | 'email' | 'password',
 }
 
@@ -15,7 +16,8 @@ export default function InputText<T>({
     id,
     value,
     label,
-    onChange
+    onChange,
+    errorMessage,
 }: InputTextProps) {
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -26,12 +28,13 @@ export default function InputText<T>({
         <label htmlFor={id}>
             <span>{label}</span>
             <input 
-            type={type} 
-            name={name} 
-            id={id} 
-            value={value}
-            onChange={handleChange}
-        />
+                type={type} 
+                name={name} 
+                id={id} 
+                value={value}
+                onChange={handleChange}
+            />
+            {errorMessage && <span>{errorMessage}</span>}
         </label>
     )
 
