@@ -8,10 +8,11 @@
     flex-direction: column;
     justify-content: flex-end;
     gap: 5px;
+    border-radius: 5px;
+    @apply bg-zinc-100;
 }
 
 .input-text__field {
-    @apply border-b border-b-grey-light text-grey;
     padding-inline: 10px;
     transition: .2s border-color;
 

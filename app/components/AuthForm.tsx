@@ -32,31 +32,33 @@ export default function AuthForm({
 
     return (
         <div className="auth-form">
-            <div className="auth-form__head">
-                {head}
+            <div className="auth-form__inner">
+                <div className="auth-form__head">
+                    {head}
+                </div>
+                <form className="auth-form__body">
+                    {body}
+                    <Button
+                        text={action}
+                        onClick={handleSubmit}
+                    />
+                </form>
             </div>
-            <form className="auth-form__body">
-                {body}
-                <Button
-                    text={action}
-                    onClick={handleSubmit}
-                />
-            </form>
-                {action === 'Sign in' ? (
-                    <p className="auth-form__text">
-                        Don't have an account yet? {' '}
-                        <Link to='/signup' className="link">
-                            Sign up
-                        </Link>    
-                    </p>
-                ): (
-                    <p className="auth-form__text">
-                        Already have an account? {' '}
-                        <Link to='/login' className="link">
-                            Sign in
-                        </Link>
-                    </p>
-                )}
+            {action === 'Sign in' ? (
+                <p className="auth-form__text">
+                    Don't have an account yet? {' '}
+                    <Link to='/signup' className="link">
+                        Sign up
+                    </Link>    
+                </p>
+            ): (
+                <p className="auth-form__text">
+                    Already have an account? {' '}
+                    <Link to='/login' className="link">
+                        Sign in
+                    </Link>
+                </p>
+            )}
             <button 
                 onClick={goBack}
                 className="auth-form__go-back-button"
