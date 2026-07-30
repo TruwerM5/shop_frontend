@@ -19,12 +19,8 @@ export default function AuthForm({
     const navigate = useNavigate();
 
     async function handleSubmit() {
-        try {
-            await onSubmit();
-            navigate(redirect ?? '/');
-        } catch(err) {
-            console.log(err);
-        }
+        await onSubmit();
+        navigate(redirect ?? '/');
     }
 
     function goBack() {

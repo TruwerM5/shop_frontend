@@ -29,7 +29,7 @@ export const validateSignUpData = (data: SignUpUserDto) => {
     const signUpValidationFields: ValidateSchema<SignUpUserDto> = [
         {
             field: 'name',
-            validators: [required(data.name, 'Name is required')],
+            validators: [required('name', data.name, 'Name is required')],
         }
     ];
 
