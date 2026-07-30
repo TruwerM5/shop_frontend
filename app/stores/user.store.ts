@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { getUserPayload, signUpUser, loginUser, logoutUser } from '~/api/auth.api';
 import type { UserStore } from '../../types/user';
-import { redirect } from 'react-router';
 
 export const useUserStore = create<UserStore>((set) => ({
     isAuthenticated: false,
@@ -25,32 +24,25 @@ export const useUserStore = create<UserStore>((set) => ({
         }
     },
     signUp: async (data) => {
-        try {
-            const { data: responseData } = await signUpUser(data);
-            if(!data) {
-                throw new Error('Sign Up Error');
-            }
-            // set({
-            //     isAuthenticated: true,
-            //     user: responseData,
-            // });
-        } catch {
-
-        }
-    },
-    login: async (data) => {
-        try {
-            const { data: responseData } = await loginUser(data);
-            if(!data) {
-                throw new Error('Login Error');
-            }
+        const { data: responseData } = await signUpUser(data);
+        if(responseData?.userId) {
             set({
                 isAuthenticated: true,
                 user: responseData,
             });
-        } catch {
-
         }
+        return responseData;
+
+    },
+    login: async (data) => {
+        const { data: responseData } = await loginUser(data);
+        if(responseData?.userId) {
+            set({
+                isAuthenticated: true,
+                user: responseData,
+            });
+        }
+        return responseData;
     },
     logout: async () => {
         try {

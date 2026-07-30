@@ -29,7 +29,7 @@ export default function Nav({
             </ul>
             {!isAuthenticated && 
             <Link to="/login" className="text-white">
-                Sign In
+                Sign in
             </Link>
             } 
         </nav>

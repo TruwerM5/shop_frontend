@@ -1,13 +1,18 @@
 import { useState } from "react"
-import { Link } from "react-router";
 import { useUserStore } from "~/stores/user.store";
 import type { LogInUserDto } from '../../types/user';
 import AuthForm from '~/components/AuthForm';
+import InputText from "~/components/InputText";
 
 export default function LoginPage() {
     const login = useUserStore((state) => state.login);
 
     const [loginData, setLoginData] = useState<LogInUserDto>({
+        email: '',
+        password: '',
+    });
+
+    const [loginErrors, setLoginErrors] = useState<LogInUserDto>({
         email: '',
         password: '',
     });
@@ -20,48 +25,38 @@ export default function LoginPage() {
     }
 
     async function submit() {
-        await login(loginData);
+       return await login(loginData);
     }
 
     return (
         <div className="page auth-page w-full h-full">
             <AuthForm
-                head={<h5 className="auth-form__title">Sign In</h5>}
-                body={<LoginFormBody loginData={loginData} onChange={handleChange} />}
+                head={<h5 className="auth-form__title">Sign in</h5>}
+                body={
+                <>
+                    <InputText
+                        type='email'
+                        name='email'
+                        id='email'
+                        value={loginData.email}
+                        label='Email'
+                        onChange={(value) => handleChange('email', value)}
+                        errorMessage={loginErrors.email}
+                    />
+                    <InputText
+                        type='password'
+                        name='password'
+                        id='password'
+                        value={loginData.password}
+                        label='Password'
+                        onChange={(value) => handleChange('password', value)}
+                        errorMessage={loginErrors.password}
+                    />
+                </>
+                }
                 onSubmit={submit}
-                action='Sign In'
+                action='Sign in'
             />
         </div>
-    )
-}
-
-function LoginFormBody({ 
-    loginData,
-    onChange,
-}: {
-    loginData: LogInUserDto;
-    onChange: (key: keyof LogInUserDto, value: string) => void;
-}) {
-    return (
-        <>
-            <input
-                type="email"
-                name="user_email"
-                id="user_email"
-                value={loginData.email}
-                onChange={(e) => onChange('email', e.target.value)}
-                className="auth-form__input"
-                placeholder="Email"
-            />
-            <input
-                type="password"
-                name="user_password"
-                id="user_password"
-                value={loginData.password}
-                onChange={(e) => onChange('password', e.target.value)}
-                className="auth-form__input"
-                placeholder="Password"
-            />
-        </>
     )
 }

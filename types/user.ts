@@ -23,6 +23,7 @@ export interface LogInUserDto {
 }
 export interface SignUpUserDto extends LogInUserDto {
     name: string;
+    confirmPassword: string;
 }
 
 export interface LogoutUserDto {
@@ -32,7 +33,7 @@ export interface UserStore {
     isAuthenticated: boolean;
     user: ApiUserPayload;
     checkIfAuthenticated: () => Promise<void>;
-    signUp: (data: SignUpUserDto) => Promise<void>;
-    login: (data: LogInUserDto) => Promise<void>;
+    signUp: (data: SignUpUserDto) => Promise<ApiUserPayload | boolean>;
+    login: (data: LogInUserDto) => Promise<ApiUserPayload | boolean>;
     logout: () => Promise<void>;
 }

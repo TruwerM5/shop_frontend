@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+@reference '@/app.css';
+
+.input-text {
+    position: relative;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.input-text__field {
+    @apply border-b border-b-grey-light text-grey;
+    padding-inline: 10px;
+    transition: .2s border-color;
+
+    &:focus,
+    &.filled {
+        outline: none;
+        @apply border-b-grey;
+
+        & + .input-text__label {
+            font-size: 14px;
+            left: 0;
+            bottom: 25px;
+        }
+    }
+}
+
+.input-text__label {
+    position: absolute;
+    left: 10px;
+    bottom: 5px;
+    font-size: 18px;
+    transition: .2s font-size, .2s left, .2s bottom;
+}
+
+.input-text__error-message {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 10px;
+    font-size: 12px;
+    @apply text-red-500;
+}

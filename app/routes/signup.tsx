@@ -4,41 +4,52 @@ import type { SignUpUserDto } from '../../types/user';
 import AuthForm from '~/components/AuthForm';
 import InputText from '~/components/InputText';
 import { validateSignUpData } from '~/helpers/validate-user';
-import { ValidationError } from "~/helpers";
 
 export default function SignUpPage() {
     const signUp = useUserStore((state) => state.signUp);
 
     const [signUpData, setSignUpData] = useState<SignUpUserDto>({
-        email: '',
         name: '',
+        email: '',
         password: '',
+        confirmPassword: '',
     });
 
     const [signUpErrors, setSignUpErros] = useState<SignUpUserDto>({
-        email: '',
         name: '',
+        email: '',
         password: '',
+        confirmPassword: '',
     });
 
     function handleChange(key: keyof SignUpUserDto, value: string) {
-            setSignUpData((currentState) => ({
-                ...currentState,
-                [key]: value,
-            }));
+        setSignUpData((currentState) => ({
+            ...currentState,
+            [key]: value,
+        }));
         }
 
     async function submit() {
         try {
-            validateSignUpData(signUpData);
-            await signUp(signUpData);
-        } catch (err) {
-            if(err instanceof ValidationError) {
-                setSignUpErros((currentState) => ({
-                    ...currentState,
-                    [err.fieldName]: err.message,
-                }))
+            const { success, validationResults } = validateSignUpData<SignUpUserDto>(signUpData);
+
+            const errors: SignUpUserDto = {
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+            };
+
+            for(const result of validationResults) {
+                errors[result.field] = result.errorMessage?? '';
+            };
+
+            setSignUpErros(errors);
+            if(!success) {
+                return false;
             }
+            return await signUp(signUpData);
+        } catch (err) {
             throw err;
         } 
     }
@@ -47,8 +58,8 @@ export default function SignUpPage() {
         <div className="page auth-page w-full h-full">
             <AuthForm
                 onSubmit={submit}
-                action='Sign Up'
-                head={<h5 className="auth-form__title">Sign Up</h5>}
+                action='Sign up'
+                head={<h5 className="auth-form__title">Sign up</h5>}
                 body={
                 <>
                     <InputText 
@@ -76,6 +87,15 @@ export default function SignUpPage() {
                         label='Password'
                         onChange={(value) => handleChange('password', value)}
                         errorMessage={signUpErrors.password}
+                    />
+                    <InputText 
+                        type='password'
+                        name='confirm password'
+                        id='confirm password'
+                        value={signUpData.confirmPassword}
+                        label='Confirm password'
+                        onChange={(value) => handleChange('confirmPassword', value)}
+                        errorMessage={signUpErrors.confirmPassword}
                     />
                 </>
                 }

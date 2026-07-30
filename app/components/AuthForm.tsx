@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router';
 import Button from './Button';
 import "@styles/auth-form.css";
+import type { ApiUserPayload } from '../../types/user';
 
 export default function AuthForm({
     head,
@@ -11,16 +12,18 @@ export default function AuthForm({
 }: {
     head: React.ReactElement;
     body: React.ReactElement;
-    onSubmit: () => Promise<void>;
-    action: 'Sign In' | 'Sign Up';
+    onSubmit: () => Promise<ApiUserPayload | boolean>;
+    action: 'Sign in' | 'Sign up';
     redirect?: string;
 }) {
 
     const navigate = useNavigate();
 
     async function handleSubmit() {
-        await onSubmit();
-        navigate(redirect ?? '/');
+        const req = await onSubmit();
+        if(req) {
+            navigate(redirect ?? '/');
+        }
     }
 
     function goBack() {
@@ -39,18 +42,18 @@ export default function AuthForm({
                     onClick={handleSubmit}
                 />
             </form>
-                {action === 'Sign In' ? (
+                {action === 'Sign in' ? (
                     <p className="auth-form__text">
                         Don't have an account yet? {' '}
                         <Link to='/signup' className="link">
-                            Sign Up
+                            Sign up
                         </Link>    
                     </p>
                 ): (
                     <p className="auth-form__text">
                         Already have an account? {' '}
                         <Link to='/login' className="link">
-                            Sign In
+                            Sign in
                         </Link>
                     </p>
                 )}
