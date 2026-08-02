@@ -6,24 +6,30 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-import { useUserStore } from './stores/user.store';
+import { useUserStore } from "./stores/user.store";
 import Header from "./components/Header";
 import type { Route } from "./+types/root";
 import "./app.css";
-import Nav from './components/Nav';
-import { useEffect, StrictMode } from "react";
-import { useUserNav } from './hooks/useUserNav';
+import Nav from "./components/Nav";
+import GlobalLoading from "./components/GlobalLoading";
+import { useEffect, useState, StrictMode } from "react";
+import { useUserNav } from "./hooks/useUserNav";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const checkIsAuthenticated = useUserStore((state) => state.checkIfAuthenticated);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navLinks = useUserNav();
   useEffect(() => {
-    async function fetchUser() {
-      await checkIsAuthenticated();
+    async function initializeAuth() {
+      try {
+        await checkIsAuthenticated();
+      } finally {
+        setIsLoading(false);
+      }
     }
 
-    fetchUser();
+    initializeAuth();
   },[checkIsAuthenticated]);
 
 
@@ -37,10 +43,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <Links />
         </head>
         <body>
-          <Header>
-            <Nav links={navLinks} />
-          </Header>
-          {children}
+          {isLoading ? (
+            <GlobalLoading />
+          ): (
+            <>
+            <Header>
+              <Nav links={navLinks} />
+            </Header>
+            {children}
+            </>
+          )}
           <ScrollRestoration />
           <Scripts />
         </body>

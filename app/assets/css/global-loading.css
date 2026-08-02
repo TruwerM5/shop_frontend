@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+
+.global-loading {
+    position: fixed;
+    inset: 0;
+    width: 100dvw;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.loading__item {
+    @apply text-zinc-400;
+    animation-name: loader;
+    animation-timing-function: ease-in-out;
+    animation-duration: .3s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.loading__item_2 {
+    animation-delay: .1s;
+}
+
+.loading__item_3 {
+    animation-delay: .2s;
+}
+
+@keyframes loader {
+    from {
+        transform: scale(0.8);
+    }
+
+    to {
+        transform: scale(1.4);
+    }
+}
