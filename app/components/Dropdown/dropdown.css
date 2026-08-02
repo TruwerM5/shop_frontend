@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown__list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    @apply border border-zinc-300;
+}
+
+.dropdown__item {
+    @apply text-zinc-600 hover:text-zinc-600;
+}
