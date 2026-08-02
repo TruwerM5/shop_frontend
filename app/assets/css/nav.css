@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+
+.nav {
+    @apply text-white;
+}
+
+@media screen and (min-width: 1024px) {
+    .nav {
+        display: flex;
+        flex: 1;
+    }
+}
+
+
+@media screen and (min-width: 1024px) {
+    .nav__list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        margin-right: auto;
+    }
+}
+
+.nav__item {
+    &:hover {
+        @apply text-zinc-200;
+    }
+}

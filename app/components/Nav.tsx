@@ -1,6 +1,7 @@
-import type { NavItem } from '../../types/nav';
-import { Link } from 'react-router';
-import { useUserStore } from '~/stores/user.store';
+import type { NavItem } from "../../types/nav";
+import { Link } from "react-router";
+import { useUserStore } from "~/stores/user.store";
+import "@styles/nav.css";
 
 export default function Nav({ 
     links,
@@ -11,11 +12,11 @@ export default function Nav({
     const isAuthenticated = useUserStore((state) => state.isAuthenticated);
 
     return (
-        <nav className="nav flex">
-            <ul className="nav-list flex justify-center items-center gap-6 mx-auto">
+        <nav className="nav">
+            <ul className="nav__list">
                 {links.map(link => (
-                    <li key={link.id} className="nav-item text-white">
-                        {link.type === 'link' ? (
+                    <li key={link.id} className="nav__item">
+                        {link.type === "link" ? (
                             <Link to={link.href}>
                                 {link.title}
                             </Link>
@@ -28,7 +29,7 @@ export default function Nav({
                 ))}
             </ul>
             {!isAuthenticated && 
-            <Link to="/login" className="text-white">
+            <Link to="/login" className="nav__item">
                 Sign in
             </Link>
             } 

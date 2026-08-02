@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+@reference '@/app.css';
+
+.header {
+    @apply bg-zinc-400 font-onest;
+}
+
+@media screen and (min-width: 1024px) {
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        padding: 12px 32px;
+    }
+}
+
+.header__logo {
+    width: 50px;
+}
+
+@media screen and (min-width: 1024px) {
+    
+    .header__logo {
+        width: 50px;
+        margin-right: auto;
+    }   
+}
