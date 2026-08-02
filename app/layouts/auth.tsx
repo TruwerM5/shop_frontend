@@ -1,7 +1,7 @@
 import type { Route } from "../+types/root";
 import { Outlet } from "react-router";
 import '@styles/auth-layout.css';
-import Logo from "~/components/Logo";
+import Brand from "~/components/Brand";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,7 +13,7 @@ export function meta({}: Route.MetaArgs) {
 export default function AuthLayout() {
     return (
         <div className="layoyt auth-layout">
-          <Logo />
+          <Brand />
           <Outlet />
         </div>
     )
