@@ -2,7 +2,8 @@ import { Link } from "react-router";
 import { useState } from "react";
 import type { NavItem } from "../../../types/nav"
 import "./dropdown.css";
-
+import clsx from "clsx";
+import NavButton from '~/components/NavButton/NavButton';
 interface DropdownProps {
     title: string;
     items: NavItem[];
@@ -16,24 +17,23 @@ export default function Dropdown({
 }: DropdownProps) {
 
     const [isOpened, setIsOpened] = useState(false);
-    function handleClick(e: React.MouseEvent) {
+    const dropdownClassName = `dropdown ${className}`;
+    function handleClick() {
         setIsOpened(!isOpened);
     }
 
+    const dropdownButtonClassName = clsx('dropdown__button', {
+        'opened': isOpened,
+    });
 
     return (
-        <div className="dropdown">
-            <button className="dropdown__button" onClick={handleClick}>{title}</button>
+        <div className={dropdownClassName}>
+            <button className={dropdownButtonClassName} onClick={handleClick}>{title}</button>
             {isOpened && 
             <ul className="dropdown__list">
-                {items.map(item => (
+                    {items.map(item => (
                     <li key={item.id} onClick={handleClick} className="dropdown__item">
-                        {item.type === "link" ?
-                        (
-                            <Link to={item.href} className="dropdown__item-button">{item.title}</Link>
-                        ) : (
-                            <button type="button" className="dropdown__item-button">{item.title}</button>
-                        )}
+                        <NavButton {...item} />
                     </li>
                 ))}
             </ul>

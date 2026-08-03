@@ -28,6 +28,12 @@
     }
 }
 
+.nav__item_no-hover {
+    &:hover {
+        @apply text-white;
+    }
+}
+
 @media screen and (min-width: 1024px) {
     .nav__item {
         padding: 16px 0;

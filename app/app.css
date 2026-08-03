@@ -20,6 +20,7 @@ body {
 }
 
 button {
+  display: block;
   @apply hover:cursor-pointer;
 }
 
