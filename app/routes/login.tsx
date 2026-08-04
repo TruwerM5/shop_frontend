@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useUserStore } from "~/stores/user.store";
 import type { LogInUserDto } from '../../types/user';
 import AuthForm from '~/components/AuthForm';
-import InputText from "~/components/InputText";
+import InputText from "~/components/InputText/InputText";
 
 export default function LoginPage() {
     const login = useUserStore((state) => state.login);

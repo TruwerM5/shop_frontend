@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useUserStore } from "~/stores/user.store";
 import type { SignUpUserDto } from '../../types/user';
 import AuthForm from '~/components/AuthForm';
-import InputText from '~/components/InputText';
+import InputText from '~/components/InputText/InputText';
 import { validateSignUpData } from '~/helpers/validate-user';
 
 export default function SignUpPage() {

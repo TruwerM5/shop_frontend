@@ -1,5 +1,5 @@
 import type { ChangeEvent } from "react";
-import "@styles/input.css";
+import "./input.css";
 import clsx from "clsx";
 interface InputTextProps {
     name: string;

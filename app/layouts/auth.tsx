@@ -1,7 +1,7 @@
 import type { Route } from "../+types/root";
 import { Outlet } from "react-router";
 import '@styles/auth-layout.css';
-import Brand from "~/components/Brand";
+import Brand from "~/components/Brand/Brand";
 
 export function meta({}: Route.MetaArgs) {
   return [

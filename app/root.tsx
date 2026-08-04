@@ -9,9 +9,9 @@ import {
 import { useUserStore } from "./stores/user.store";
 import Header from "./components/Header";
 import type { Route } from "./+types/root";
-import "./app.css";
+import "~/styles/app.css";
 import Nav from "./components/Nav";
-import GlobalLoading from "./components/GlobalLoading";
+import GlobalLoading from "./components/GlobalLoading/GlobalLoading";
 import { useEffect, useState, StrictMode } from "react";
 import { useUserNav } from "./hooks/useUserNav";
 

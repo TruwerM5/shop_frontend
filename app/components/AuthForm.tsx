@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router';
-import Button from './Button';
+import Button from './Button/Button';
 import "@styles/auth-form.css";
 import type { ApiUserPayload } from '../../types/user';
 

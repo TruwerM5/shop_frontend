@@ -9,7 +9,8 @@ export default defineConfig({
     tsconfigPaths: true,
     alias: {
       '@': path.resolve(__dirname, 'app'),
-      '@styles': path.resolve(__dirname, 'app/assets/css'),
+      '@styles': path.resolve(__dirname, 'app/styles'),
+      '@assets': path.resolve(__dirname, 'app/assets'),
       '@types': path.resolve(__dirname, 'types'),
     }
   },

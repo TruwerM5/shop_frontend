@@ -1,4 +1,4 @@
-import "@styles/global-loading.css";
+import "./global-loading.css";
 import { FaCircle } from "react-icons/fa";
 
 export default function Loading() {

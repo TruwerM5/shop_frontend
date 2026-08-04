@@ -1,6 +1,6 @@
 import { useState } from "react";
 import clsx from "clsx";
-import "@styles/button.css";
+import "./button.css";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function Button({

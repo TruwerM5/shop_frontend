@@ -1,4 +1,4 @@
-import "@styles/brand.css";
+import "./brand.css";
 
 export default function Logo() {
     return (
