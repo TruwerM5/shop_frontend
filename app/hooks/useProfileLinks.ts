@@ -2,10 +2,13 @@
 import type { NavItem } from "../../types/nav";
 import { FaRegUser } from "react-icons/fa6";
 import { BsBoxSeam } from "react-icons/bs";
+import { useUserStore } from "~/stores/user.store";
 import { MdOutlinePowerSettingsNew } from "react-icons/md";
 
-export const profileLinks: NavItem[] = [
-    {
+export function useProfileLinks(): NavItem[] {
+    const logout = useUserStore((state) => state.logout);
+
+    const links: NavItem[] = [{
         id: 1,
         title: 'Profile',
         href: '/profile',
@@ -21,9 +24,9 @@ export const profileLinks: NavItem[] = [
         id: 3,
         title: 'Sign out',
         type: 'button',
-        action: () => {
-            console.log('logout');
-        },
+        action: logout,
         icon: MdOutlinePowerSettingsNew,
-    },
-];
+    }];
+
+    return links;
+}

@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { useUserStore } from "~/stores/user.store";
 import Dropdown from "./Dropdown/Dropdown";
 import NavButton from "./NavButton/NavButton";
-import { profileLinks } from "~/common/profileLinks";
+import { useProfileLinks } from "~/hooks/useProfileLinks";
 import "@styles/nav.css";
 
 export default function Nav({ 
@@ -12,7 +12,7 @@ export default function Nav({
     links: NavItem[]
 }) {
     const user = useUserStore((state) => state.user);
-
+    const profileLinks = useProfileLinks();
     return (
         <nav className="nav">
             <ul className="nav__list">
