@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import { useUserStore } from "./stores/user.store";
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import type { Route } from "./+types/root";
 import "~/styles/app.css";
 import Nav from "./components/Nav";
