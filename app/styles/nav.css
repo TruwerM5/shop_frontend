@@ -1,8 +1,5 @@
 @import 'tailwindcss';
 
-.nav {
-    @apply text-white;
-}
 
 @media screen and (min-width: 1024px) {
     .nav {
@@ -22,15 +19,9 @@
     }
 }
 
-.nav__item {
-    &:hover {
-        @apply text-zinc-200;
-    }
-}
-
 .nav__item_no-hover {
     &:hover {
-        @apply text-white;
+        @apply text-black;
     }
 }
 
