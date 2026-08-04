@@ -19,7 +19,8 @@ export default function AuthForm({
 
     const navigate = useNavigate();
 
-    async function handleSubmit() {
+    async function handleSubmit(e: React.SubmitEvent) {
+        e.preventDefault();
         const req = await onSubmit();
         if(req) {
             navigate(redirect ?? '/');
@@ -36,12 +37,9 @@ export default function AuthForm({
                 <div className="auth-form__head">
                     {head}
                 </div>
-                <form className="auth-form__body">
+                <form className="auth-form__body" onSubmit={handleSubmit}>
                     {body}
-                    <Button
-                        text={action}
-                        onClick={handleSubmit}
-                    />
+                    <Button text={action} type="submit" />
                 </form>
             </div>
             {action === 'Sign in' ? (

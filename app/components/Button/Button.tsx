@@ -5,25 +5,22 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function Button({
     text,
-    onClick,
     isPrimary = true,
     isDisabled,
+    onClick,
+    type = 'button',
 }: {
     text: string;
-    onClick: () => Promise<void> | void;
     isPrimary?: boolean;
     isDisabled?: boolean;
+    onClick?: () => void;
+    type?: 'button' | 'submit';
 }) {
 
     const [isPending, setIsPending] = useState(false);
 
     async function handleClick() {
         setIsPending(true);
-        try {
-            await onClick();
-        } finally {
-            setIsPending(false);
-        }
     } 
 
     const buttonClassName = clsx("button", {
@@ -32,7 +29,7 @@ export default function Button({
         "button_disbled": isDisabled,
     })
     return (
-        <button type="button" onClick={handleClick} className={buttonClassName}>
+        <button type={type} onClick={handleClick} className={buttonClassName}>
             <span className="button__text">
                 { isPending &&
                     <span className="button__pending-icon">
