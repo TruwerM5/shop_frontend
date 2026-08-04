@@ -1,9 +1,10 @@
-import { Link } from "react-router";
-import { useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import type { NavItem } from "../../../types/nav"
 import "./dropdown.css";
 import clsx from "clsx";
 import NavButton from '~/components/NavButton/NavButton';
+import useOutsideClick from "~/hooks/useOutsideClick";
+
 interface DropdownProps {
     title: string;
     items: NavItem[];
@@ -17,6 +18,13 @@ export default function Dropdown({
 }: DropdownProps) {
 
     const [isOpened, setIsOpened] = useState(false);
+    const dropdownRef = useRef<HTMLUListElement>(null);
+    const closeDropdown = useCallback(() => {
+        setIsOpened(false);
+    }, []);
+
+    useOutsideClick(dropdownRef, closeDropdown);
+
     const dropdownClassName = `dropdown ${className}`;
     function handleClick() {
         setIsOpened(!isOpened);
@@ -30,7 +38,7 @@ export default function Dropdown({
         <div className={dropdownClassName}>
             <button className={dropdownButtonClassName} onClick={handleClick}>{title}</button>
             {isOpened && 
-            <ul className="dropdown__list">
+            <ul className="dropdown__list" ref={dropdownRef}>
                     {items.map(item => (
                     <li key={item.id} onClick={handleClick} className="dropdown__item">
                         <NavButton {...item} />
