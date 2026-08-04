@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { getUserPayload, signUpUser, loginUser, logoutUser } from '~/api/auth.api';
-import type { UserStore } from '../../types/user';
+import { create } from "zustand";
+import { getUserPayload, signUpUser, loginUser, logoutUser } from "~/api/auth.api";
+import type { UserStore } from "../../types/user";
 
 export const useUserStore = create<UserStore>((set) => ({
     isAuthenticated: false,
@@ -9,7 +9,7 @@ export const useUserStore = create<UserStore>((set) => ({
         try {
             const { data } = await getUserPayload();
             if(!data) {
-                throw new Error('Error getting user');
+                throw new Error("Error getting user");
             }
             set({
                 isAuthenticated: true,
@@ -48,7 +48,7 @@ export const useUserStore = create<UserStore>((set) => ({
         try {
             const { data } = await logoutUser();
             if(!data.success) {
-                throw new Error('Logout Error');
+                throw new Error("Logout Error");
             }
             set({
                 isAuthenticated: false,
