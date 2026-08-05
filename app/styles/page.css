@@ -1,3 +1,9 @@
 .page {
-    padding: 0 15px;
+    padding: 15px;
+}
+
+@media screen and (min-width: 1024px) {
+    .page {
+        padding: 40px 20px;
+    }
 }
