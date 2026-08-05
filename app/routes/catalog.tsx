@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react"
-import { useProductsStore } from "~/stores/products.store"
 import ProductList from "~/components/ProductList/ProductList";
-import type { ApiGetProductItem } from "../../types/product";
+import type { Route } from "./+types/catalog";
+import { fetchCatalog } from "~/api/products.api";
 
-export default function CatalogPage() {
+export async function clientLoader() {
+    const { data } = await fetchCatalog();
+    return data;
+}
 
-    const [products, setProducts] = useState<ApiGetProductItem[]>([]);
-    const fetchProducts = useProductsStore((state) => state.fetchCatalog);
 
-    useEffect(() => {
-        async function initiailizeCatalog() {
-            const data = await fetchProducts();
-            setProducts(data);
-        };
+export function HydrateFallback() {
+    return <div>Loading...</div>;
+}
 
-        initiailizeCatalog();
-    }, []);
+export default function CatalogPage({
+    loaderData
+}: Route.ComponentProps) {
+    const products = loaderData;
 
     return (
         <div className="page catalog-page">
@@ -23,8 +23,7 @@ export default function CatalogPage() {
                 <ProductList products={products} />
             ) : (
                 <span>Products not found</span>
-            )} 
+            )}
         </div>
-        
     )
 }
