@@ -1,10 +1,4 @@
 
-export interface CatalogStore {
-    products: ApiGetProductItem[];
-    fetchCatalog: () => Promise<ApiGetProductItem[]>;
-    getCatalog: () => ApiGetProductItem[];
-}
-
 export interface ApiGetProductItem {
     productId: number;
     name: string;
