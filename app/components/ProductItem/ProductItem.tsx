@@ -11,19 +11,25 @@ export default function ProductItem({
     product
 }: ProductItemProps) {
 
-    const priductPageUrl = `/product/${product.productId}`;
+    const { productId, name, price, productImages } = product;
+
+    const priductPageUrl = `/product/${productId}`;
 
     return (
         <div className="product-item">
             <Link to={priductPageUrl} className="product-item__image-wrapper">
-                <img src={emptyImage} alt={product.name} className="product-item__image" loading="lazy" />
+                {productImages.length > 0 ? (
+                    <img src={productImages[0].imagePath} alt={name} className="product-item__image" loading="lazy" />
+                ) : (
+                    <img src={emptyImage} alt={name} className="product-item__image" loading="lazy" />
+                )}
             </Link>
             <div className="product-item__info">
                 <Link to={priductPageUrl} className="product-item__name">
-                    {product.name}
+                    {name}
                 </Link>
                 <span className="product-item__price">
-                    {product.price}&#36;
+                    {price}&#36;
                 </span>
             </div>
         </div>
