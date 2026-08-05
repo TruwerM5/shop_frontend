@@ -20,3 +20,6 @@ export interface ApiGetProductDetails {
     author?: string;
     description?: string;
 }
+export interface ApiGetProduct extends ApiGetProductItem {
+    productDetails: ApiGetProductDetails;
+}
