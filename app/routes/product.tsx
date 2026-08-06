@@ -1,6 +1,7 @@
 import "@styles/page.css";
 import { getProductById } from "~/api/products.api";
-import type { Route } from '../+types/root';
+import type { Route } from "./+types/product";
+
 export async function clientLoader({
     params
 }: Route.ClientLoaderArgs) {
@@ -11,9 +12,6 @@ export async function clientLoader({
 export default function ProductPage({
     loaderData
 }: Route.ComponentProps) {
-
-    console.log(loaderData);
-
     return (
         <div>
             Product Page!
