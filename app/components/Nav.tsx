@@ -22,7 +22,7 @@ export default function Nav({
                     </li>
                 ))}
             </ul>
-            {!user ? (
+            {!user.userId ? (
                 <Link to="/login" className="nav__item">
                     Sign in
                 </Link>

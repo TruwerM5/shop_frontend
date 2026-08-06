@@ -1,25 +1,37 @@
 import { create } from "zustand";
 import { getUserPayload, signUpUser, loginUser, logoutUser } from "~/api/auth.api";
-import type { UserStore } from "../../types/user";
+import type { ApiUserPayload, UserStore } from "../../types/user";
 
 export const useUserStore = create<UserStore>((set) => ({
-    isAuthenticated: false,
-    user: null,
+    authStatus: "idle",
+    user: { userId: null },
+    setUser: (userData: ApiUserPayload) => {
+        set({
+            authStatus: "authenticated",
+            user: userData,
+        });
+    },
     checkIfAuthenticated: async () => {
+        set({
+            authStatus: "loading",
+        });
         try {
             const { data } = await getUserPayload();
-            if(!data) {
-                throw new Error("Error getting user");
+            if(!data.userId) {
+                set({
+                    authStatus: "unauthenticated",
+                });
+                return;
             }
             set({
-                isAuthenticated: true,
+                authStatus: "authenticated",
                 user: data,
             });
             
         } catch {
             set({
-                isAuthenticated: false,
-                user: null,
+                authStatus: "unauthenticated",
+                user: { userId: null }
             });
         }
     },
@@ -27,7 +39,7 @@ export const useUserStore = create<UserStore>((set) => ({
         const { data: responseData } = await signUpUser(data);
         if(responseData?.userId) {
             set({
-                isAuthenticated: true,
+                authStatus: "authenticated",
                 user: responseData,
             });
         }
@@ -38,7 +50,7 @@ export const useUserStore = create<UserStore>((set) => ({
         const { data: responseData } = await loginUser(data);
         if(responseData?.userId) {
             set({
-                isAuthenticated: true,
+                authStatus: "authenticated",
                 user: responseData,
             });
         }
@@ -51,8 +63,8 @@ export const useUserStore = create<UserStore>((set) => ({
                 throw new Error("Logout Error");
             }
             set({
-                isAuthenticated: false,
-                user: null,
+                authStatus: "unauthenticated",
+                user: { userId: null },
             })
         } catch {
 

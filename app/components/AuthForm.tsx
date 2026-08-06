@@ -1,29 +1,30 @@
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate, useLocation } from 'react-router';
 import Button from './Button/Button';
 import "@styles/auth-form.css";
 import type { ApiUserPayload } from '../../types/user';
+
+interface AuthFormProps {
+    head: React.ReactElement;
+    body: React.ReactElement;
+    onSubmit: () => Promise<ApiUserPayload | boolean>;
+    action: 'Sign in' | 'Sign up';
+    redirect?: string;
+}
 
 export default function AuthForm({
     head,
     body,
     onSubmit,
     action,
-    redirect
-}: {
-    head: React.ReactElement;
-    body: React.ReactElement;
-    onSubmit: () => Promise<ApiUserPayload | boolean>;
-    action: 'Sign in' | 'Sign up';
-    redirect?: string;
-}) {
-
+}: AuthFormProps) {
     const navigate = useNavigate();
-
+    const location = useLocation();
+    const fromRoute = location.state?.from ?? "/";
     async function handleSubmit(e: React.SubmitEvent) {
         e.preventDefault();
         const req = await onSubmit();
         if(req) {
-            navigate(redirect ?? '/');
+            navigate(fromRoute, { replace: true });
         }
     }
 

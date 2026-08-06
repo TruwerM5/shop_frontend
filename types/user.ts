@@ -4,7 +4,9 @@ export type ApiUserPayload = {
     name: string;
     status: typeof UserStatus;
     role: UserRole;
-} | null;
+} | { 
+    userId: null;
+};
 
 export const UserStatus = {
     active: 'active',
@@ -29,9 +31,13 @@ export interface SignUpUserDto extends LogInUserDto {
 export interface LogoutUserDto {
     success: boolean;
 }
+
+type AuthStatus = "idle" | "loading" | "authenticated" | "unauthenticated";
+
 export interface UserStore {
-    isAuthenticated: boolean;
+    authStatus: AuthStatus;
     user: ApiUserPayload;
+    setUser: (userData: ApiUserPayload) => void;
     checkIfAuthenticated: () => Promise<void>;
     signUp: (data: SignUpUserDto) => Promise<ApiUserPayload | boolean>;
     login: (data: LogInUserDto) => Promise<ApiUserPayload | boolean>;
