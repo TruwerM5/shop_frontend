@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from 'react-router';
 import Button from './Button/Button';
 import "@styles/auth-form.css";
 import type { ApiUserPayload } from '../../types/user';
+import { useState } from 'react';
 
 interface AuthFormProps {
     head: React.ReactElement;
@@ -20,8 +21,8 @@ export default function AuthForm({
     const navigate = useNavigate();
     const location = useLocation();
     const fromRoute = location.state?.from ?? "/";
-    async function handleSubmit(e: React.SubmitEvent) {
-        e.preventDefault();
+    async function handleSubmit(event?: React.SubmitEvent) {
+        event?.preventDefault();
         const req = await onSubmit();
         if(req) {
             navigate(fromRoute, { replace: true });
@@ -40,7 +41,7 @@ export default function AuthForm({
                 </div>
                 <form className="auth-form__body" onSubmit={handleSubmit}>
                     {body}
-                    <Button text={action} type="submit" />
+                    <Button text={action} type="submit" onClick={handleSubmit} />
                 </form>
             </div>
             {action === 'Sign in' ? (
