@@ -63,8 +63,8 @@ export default function App({
     location.pathname === route ||
     location.pathname.startsWith(`${route}/`)
   );
-
-  const shouldRedirect = isProtectedRoute && !user.userId;
+  const isAuthPath = location.pathname === '/login' || location.pathname === '/signup';
+  const shouldRedirect = (isProtectedRoute && !user.userId) || (isAuthPath && loaderData.userId);
 
   useEffect(() => {
     let userData: ApiUserPayload = loaderData.userId && authStatus === 'authenticated'
@@ -78,11 +78,18 @@ export default function App({
   ]);
 
   useEffect(() => {
-    if(!shouldRedirect) {
+    const from = !isAuthPath ? location.pathname : '/';
+    if(loaderData.userId && isAuthPath) {
+      navigate("/", {
+        replace: true,
+      });
       return;
     }
 
-    const from = location.pathname !== '/login' ? location.pathname : '/';
+    if(!shouldRedirect) {
+      return;
+    }
+    
     navigate("/login", {
       replace: true, 
       state: { from },
@@ -91,7 +98,7 @@ export default function App({
     isProtectedRoute,
     location.pathname,
     navigate,
-    user.userId,
+    loaderData.userId,
   ]);
 
   if(shouldRedirect) {
