@@ -55,6 +55,8 @@ export default function App({
   const navigate = useNavigate();
   const location = useLocation();
   const navLinks = useUserNav();
+  const user = useUserStore((state) => state.user);
+  const authStatus = useUserStore((state) => state.authStatus);
   const setUser = useUserStore((state) => state.setUser);
   
   const isProtectedRoute = PROTECTED_ROUTES.some((route) => 
@@ -62,29 +64,34 @@ export default function App({
     location.pathname.startsWith(`${route}/`)
   );
 
-  const shouldRedirect = isProtectedRoute && !loaderData.userId;
+  const shouldRedirect = isProtectedRoute && !user.userId;
 
   useEffect(() => {
-    let userData: ApiUserPayload = { userId: null };
-    if(loaderData.userId) {
-      userData = loaderData;
-    }
+    let userData: ApiUserPayload = loaderData.userId && authStatus === 'authenticated'
+    ? loaderData
+    : { userId: null };
     setUser(userData);
+  }, [
+    loaderData.userId,
+    user.userId,
+    setUser,
+  ]);
 
+  useEffect(() => {
     if(!shouldRedirect) {
       return;
     }
-    const from = location.pathname;
+
+    const from = location.pathname !== '/login' ? location.pathname : '/';
     navigate("/login", {
       replace: true, 
       state: { from },
     });
   }, [
     isProtectedRoute,
-    loaderData.userId,
     location.pathname,
     navigate,
-    setUser,
+    user.userId,
   ]);
 
   if(shouldRedirect) {

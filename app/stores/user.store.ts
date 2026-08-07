@@ -67,7 +67,10 @@ export const useUserStore = create<UserStore>((set) => ({
                 user: { userId: null },
             })
         } catch {
-
+            set({
+                authStatus: "unauthenticated",
+                user: { userId: null },
+            });
         }
     },
 }));
