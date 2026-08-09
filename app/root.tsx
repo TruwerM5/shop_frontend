@@ -5,8 +5,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLocation,
-  useNavigate
 } from "react-router";
 import { useUserStore } from "./stores/user.store";
 import Header from "./components/Header/Header";
@@ -14,16 +12,9 @@ import type { Route } from "./+types/root";
 import "~/styles/app.css";
 import Nav from "./components/Nav";
 import GlobalLoading from "./components/GlobalLoading/GlobalLoading";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useUserNav } from "./hooks/useUserNav";
 import { getUserPayload } from "./api/auth.api";
-import { PROTECTED_ROUTES } from "./constants";
-import type { ApiUserPayload } from "../types/user";
-
-export async function clientLoader() {
-  const { data } = await getUserPayload();
-  return data;
-}
 
 export function Layout({ 
   children,
@@ -47,68 +38,28 @@ export function Layout({
   );
 }
 
-export default function App({
-  loaderData
-}: Route.ComponentProps) {
-  const navigate = useNavigate();
-  const location = useLocation();
+export default function App() {
   const navLinks = useUserNav();
-  const user = useUserStore((state) => state.user);
-  const authStatus = useUserStore((state) => state.authStatus);
   const setUser = useUserStore((state) => state.setUser);
-  const isInitialized = useRef(false);
-  const isProtectedRoute = PROTECTED_ROUTES.some((route) => 
-    location.pathname === route ||
-    location.pathname.startsWith(`${route}/`)
-  );
-  const isAuthPath = location.pathname === "/login" || location.pathname === "/signup";
-  const shouldRedirect = isProtectedRoute && !user.userId || (isAuthPath && user.userId);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    if(isInitialized.current && !loaderData.userId) {
+    if(isInitialized) {
       return;
     }
-    let userData: ApiUserPayload = user.userId || loaderData.userId
-    ? loaderData
-    : { userId: null };
-    setUser(userData);
-    isInitialized.current = true;
+
+    async function isAuthenticated() {
+      const { data } = await getUserPayload();
+      setUser(data);
+      setIsInitialized(true);
+    }
+    
+    isAuthenticated();
   }, [
-    loaderData.userId,
     setUser,
-    authStatus,
-    location.pathname,
   ]);
 
-  useEffect(() => {
-    if(!isInitialized.current) {
-      return;
-    }
-    const from = !isAuthPath ? location.pathname : "/";
-    if(loaderData.userId && isAuthPath) {
-      navigate("/", {
-        replace: true,
-      });
-      return;
-    }
-
-    if(!shouldRedirect) {
-      return;
-    }
-    console.log(user.userId);
-    navigate("/login", {
-      replace: true, 
-      state: { from },
-    });
-  }, [
-    isProtectedRoute,
-    location.pathname,
-    navigate,
-    loaderData.userId,
-    user.userId,
-  ]);
-
-  if (!isInitialized.current || shouldRedirect) {
+  if (!isInitialized) {
     return <GlobalLoading />;
   }
 
