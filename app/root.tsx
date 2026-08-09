@@ -14,7 +14,7 @@ import type { Route } from "./+types/root";
 import "~/styles/app.css";
 import Nav from "./components/Nav";
 import GlobalLoading from "./components/GlobalLoading/GlobalLoading";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useUserNav } from "./hooks/useUserNav";
 import { getUserPayload } from "./api/auth.api";
 import { PROTECTED_ROUTES } from "./constants";
@@ -30,8 +30,6 @@ export function Layout({
  }: { 
   children: React.ReactNode,
  }) {
-  
-
   return (
     <html lang="en">
       <head>
@@ -58,27 +56,35 @@ export default function App({
   const user = useUserStore((state) => state.user);
   const authStatus = useUserStore((state) => state.authStatus);
   const setUser = useUserStore((state) => state.setUser);
-  
+  const isInitialized = useRef(false);
   const isProtectedRoute = PROTECTED_ROUTES.some((route) => 
     location.pathname === route ||
     location.pathname.startsWith(`${route}/`)
   );
-  const isAuthPath = location.pathname === '/login' || location.pathname === '/signup';
-  const shouldRedirect = (isProtectedRoute && !user.userId) || (isAuthPath && loaderData.userId);
+  const isAuthPath = location.pathname === "/login" || location.pathname === "/signup";
+  const shouldRedirect = isProtectedRoute && !user.userId || (isAuthPath && user.userId);
 
   useEffect(() => {
-    let userData: ApiUserPayload = loaderData.userId && authStatus === 'authenticated'
+    if(isInitialized.current && !loaderData.userId) {
+      return;
+    }
+    let userData: ApiUserPayload = user.userId || loaderData.userId
     ? loaderData
     : { userId: null };
     setUser(userData);
+    isInitialized.current = true;
   }, [
     loaderData.userId,
-    user.userId,
     setUser,
+    authStatus,
+    location.pathname,
   ]);
 
   useEffect(() => {
-    const from = !isAuthPath ? location.pathname : '/';
+    if(!isInitialized.current) {
+      return;
+    }
+    const from = !isAuthPath ? location.pathname : "/";
     if(loaderData.userId && isAuthPath) {
       navigate("/", {
         replace: true,
@@ -89,7 +95,7 @@ export default function App({
     if(!shouldRedirect) {
       return;
     }
-    
+    console.log(user.userId);
     navigate("/login", {
       replace: true, 
       state: { from },
@@ -99,9 +105,10 @@ export default function App({
     location.pathname,
     navigate,
     loaderData.userId,
+    user.userId,
   ]);
 
-  if(shouldRedirect) {
+  if (!isInitialized.current || shouldRedirect) {
     return <GlobalLoading />;
   }
 

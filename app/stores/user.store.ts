@@ -7,7 +7,7 @@ export const useUserStore = create<UserStore>((set) => ({
     user: { userId: null },
     setUser: (userData: ApiUserPayload) => {
         set({
-            authStatus: "authenticated",
+            authStatus: userData.userId ? "authenticated" : "unauthenticated",
             user: userData,
         });
     },
@@ -27,7 +27,7 @@ export const useUserStore = create<UserStore>((set) => ({
                 authStatus: "authenticated",
                 user: data,
             });
-            
+
         } catch {
             set({
                 authStatus: "unauthenticated",
@@ -65,7 +65,7 @@ export const useUserStore = create<UserStore>((set) => ({
             set({
                 authStatus: "unauthenticated",
                 user: { userId: null },
-            })
+            });
         } catch {
             set({
                 authStatus: "unauthenticated",
