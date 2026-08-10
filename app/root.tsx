@@ -2,9 +2,11 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
+  Navigate,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "react-router";
 import { useUserStore } from "./stores/user.store";
 import Header from "./components/Header/Header";
@@ -12,9 +14,10 @@ import type { Route } from "./+types/root";
 import "~/styles/app.css";
 import Nav from "./components/Nav";
 import GlobalLoading from "./components/GlobalLoading/GlobalLoading";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useUserNav } from "./hooks/useUserNav";
 import { getUserPayload } from "./api/auth.api";
+import { PROTECTED_ROUTES } from "./constants";
 
 export function Layout({ 
   children,
@@ -40,27 +43,45 @@ export function Layout({
 
 export default function App() {
   const navLinks = useUserNav();
+  const { pathname } = useLocation();
   const setUser = useUserStore((state) => state.setUser);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const user = useUserStore((state) => state.user);
+  const isAuthInitialized = useUserStore((state) => state.isAuthInitialized);
+  const setAuthInitialized = useUserStore((state) => state.setAuthInitialized);
+  const isProtectedRoute = PROTECTED_ROUTES.some((route) => 
+    route === pathname ||
+    pathname.startsWith(`${route}/`)
+  );
+  const redirectState = useMemo(() => ({
+    from: pathname,
+    }), 
+    [pathname]
+  );
+ 
 
   useEffect(() => {
-    if(isInitialized) {
-      return;
-    }
-
     async function isAuthenticated() {
-      const { data } = await getUserPayload();
-      setUser(data);
-      setIsInitialized(true);
+      try {
+        const { data } = await getUserPayload();
+        setUser(data);
+      } finally {
+        setAuthInitialized(true);
+      }
     }
     
     isAuthenticated();
   }, [
     setUser,
+    setAuthInitialized,
   ]);
 
-  if (!isInitialized) {
+
+  if (!isAuthInitialized) {
     return <GlobalLoading />;
+  }
+
+  if(isProtectedRoute && !user.userId) {
+    return <Navigate to='/login' state={redirectState} />;
   }
 
   return (

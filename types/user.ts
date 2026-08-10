@@ -36,8 +36,10 @@ type AuthStatus = "idle" | "loading" | "authenticated" | "unauthenticated";
 
 export interface UserStore {
     authStatus: AuthStatus;
+    isAuthInitialized: boolean;
     user: ApiUserPayload;
     setUser: (userData: ApiUserPayload) => void;
+    setAuthInitialized: (value: boolean) => void;
     checkIfAuthenticated: () => Promise<void>;
     signUp: (data: SignUpUserDto) => Promise<ApiUserPayload | boolean>;
     login: (data: LogInUserDto) => Promise<ApiUserPayload | boolean>;

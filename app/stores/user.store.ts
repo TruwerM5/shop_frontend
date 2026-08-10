@@ -4,11 +4,17 @@ import type { ApiUserPayload, UserStore } from "../../types/user";
 
 export const useUserStore = create<UserStore>((set) => ({
     authStatus: "idle",
+    isAuthInitialized: false,
     user: { userId: null },
     setUser: (userData: ApiUserPayload) => {
         set({
             authStatus: userData.userId ? "authenticated" : "unauthenticated",
             user: userData,
+        });
+    },
+    setAuthInitialized: (value: boolean) => {
+        set({
+            isAuthInitialized: value,
         });
     },
     checkIfAuthenticated: async () => {
