@@ -2,7 +2,6 @@
 @reference '@styles/app.css';
 
 .button {
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,7 +15,7 @@
     font-size: 16px;
     font-weight: 600;
     transition: .2s background-color;
-    padding-block: 8px;
+    padding: 8px 16px;
 }
 
 .button_pending {

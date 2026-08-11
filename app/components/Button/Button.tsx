@@ -9,12 +9,16 @@ export default function Button({
     isDisabled,
     onClick,
     type = 'button',
+    customClass,
+    icon
 }: {
     text: string;
     isPrimary?: boolean;
     isDisabled?: boolean;
     onClick: (event?: React.SubmitEvent) => Promise<void>;
     type?: 'button' | 'submit';
+    customClass?: string;
+    icon?: React.ReactElement;
 }) {
 
     const [isPending, setIsPending] = useState(false);
@@ -30,13 +34,14 @@ export default function Button({
         
     }
 
-    const buttonClassName = clsx("button", {
+    const buttonClassName = clsx(`button ${customClass}`, {
         "button_primary": isPrimary,
         "button_pending": isPending,
         "button_disbled": isDisabled,
     })
     return (
-        <button type="submit" onClick={handleSubmit} className={buttonClassName}>
+        <button type={type} onClick={handleSubmit} className={buttonClassName}>
+            {icon && !isPending && <span className="button__icon">{icon}</span>}
             <span className="button__text">
                 { isPending &&
                     <span className="button__pending-icon">

@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+.description {
+    width: 100%;
+}
+
+.description__inner {
+    position: relative;
+    overflow: hidden;
+    max-height: 50px;
+    interpolate-size: allow-keywords;
+    transition: max-height .2s linear;
+}
+
+.description__inner::after {
+    content: '';
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity .2s;
+    background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1) 100%);
+}
+
+.description__inner_opened {
+    max-height: max-content;
+}
+
+.description__inner_opened::after {
+    opacity: 0;
+}
