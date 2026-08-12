@@ -12,14 +12,18 @@ export default function Button({
     customClass,
     icon
 }: {
-    text: string;
+    onClick: (event?: React.SubmitEvent) => Promise<void>;
+    text?: string;
     isPrimary?: boolean;
     isDisabled?: boolean;
-    onClick: (event?: React.SubmitEvent) => Promise<void>;
     type?: 'button' | 'submit';
     customClass?: string;
     icon?: React.ReactElement;
 }) {
+
+    if(!text && !icon) {
+        return null;
+    }
 
     const [isPending, setIsPending] = useState(false);
 
@@ -42,14 +46,17 @@ export default function Button({
     return (
         <button type={type} onClick={handleSubmit} className={buttonClassName}>
             {icon && !isPending && <span className="button__icon">{icon}</span>}
-            <span className="button__text">
-                { isPending &&
-                    <span className="button__pending-icon">
-                        <AiOutlineLoading3Quarters />
-                    </span>
-                }
-                {text}
-            </span>
+            {isPending &&
+                <span className="button__pending-icon">
+                    <AiOutlineLoading3Quarters />
+                </span>
+            }
+            {
+                text && 
+                <span className="button__text">
+                    {text}
+                </span>
+            }
         </button>
     )
 }

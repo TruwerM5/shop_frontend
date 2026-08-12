@@ -1,6 +1,9 @@
+@import 'tailwindcss';
+
 .product-page {
     max-width: 1200px;
     margin: 0 auto;
+    font-family: Inter, sans-serif;
 }
 
 .product {
@@ -46,6 +49,16 @@
     font-family: Inter, sans-serif;
 }
 
+.product__author-name {
+    font-size: 16px;
+}
+
+.product__actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .product__add-to-cart-btn {
     width: 100%;
     margin: 10px 0;
@@ -55,4 +68,16 @@
     .product__add-to-cart-btn {
         width: fit-content;
     }
+}
+
+.product__add-to-wishlist-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}
+
+.product__wishlist-icon {
+    width: 18px;
+    height: 18px;
+    @apply text-white;
 }
