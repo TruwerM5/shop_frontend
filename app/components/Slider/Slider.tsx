@@ -28,7 +28,7 @@ export default function Slider({
     return (
         <div className="slider">
             <div className="slider__inner relative overflow-hidden">
-                <ul ref={sliderRef} className="slider__list flex  overflow-scroll snap-x snap-mandatory scrollbar-none">
+                <ul ref={sliderRef} className="slider__list flex  overflow-hidden snap-x snap-mandatory scrollbar-none scroll-smooth">
                     {images.map((image, index) => (
                         <li key={index} className="slider__item min-w-full snap-center">
                             <img
