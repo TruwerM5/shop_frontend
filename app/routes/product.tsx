@@ -5,12 +5,20 @@ import type { Route } from "./+types/product";
 import emptyImage from "@assets/images/empty-image.png";
 import "~/styles/product-page.css";
 import Button from "~/components/Button/Button";
-import Desciption from "~/components/Description/Description";
+import Description from "~/components/Description/Description";
 import BreadCrumbs from "~/components/BreadCrumbs/BreadCrumbs";
+import Rating from "~/components/Rating/Rating";
 import { IoBagAdd } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import clsx from "clsx";
+
+export function meta({
+    loaderData,
+}: Route.MetaArgs) {
+  return [
+    { title: `${loaderData?.name} | NovaMarket` },
+  ];
+}
 
 export async function clientLoader({
     params
@@ -22,7 +30,7 @@ export async function clientLoader({
 export default function ProductPage({
     loaderData
 }: Route.ComponentProps) {
-    const { productId, name, price, productDetails, productImages } = loaderData;
+    const { productId, name, price, productDetails, rating, productImages } = loaderData;
     const { description, size, category, color, author } = productDetails;
     const breadCrumbsPaths = [{
         id: 1,
@@ -73,6 +81,7 @@ export default function ProductPage({
                     <span className="product__author-name">
                         Author: {author}
                     </span>}
+                    <Rating rating={rating} />
                     <div className="product__actions">
                         <Button 
                             text="Add to cart"
@@ -92,7 +101,13 @@ export default function ProductPage({
                                 )}
                         />
                     </div>
-                    <Desciption description={description} />
+                    
+                </div>
+                <div className="product__bottom">
+                    <div className="product__recommended-products">
+                        <h5 className="title-sm">Recommended</h5>
+                    </div>
+                    <Description description={description} />
                 </div>
             </div>
         </div>

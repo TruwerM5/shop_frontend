@@ -3,6 +3,7 @@ export interface ApiGetProductItem {
     productId: number;
     name: string;
     price: number;
+    rating: number;
     sellerId: number;
     productImages: ApiGetProductImages[];
 }
