@@ -14,6 +14,7 @@
 html,
 body {
   @apply bg-white text-grey font-sans;
+  scroll-behavior: smooth;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
@@ -28,4 +29,15 @@ button {
 .link {
   @apply text-blue-500 hover:text-blue-600;
   text-decoration: underline;
+}
+
+.title-sm {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+@media screen and (min-width: 1024px) {
+  .title-sm {
+    font-size: 24px;
+  } 
 }
