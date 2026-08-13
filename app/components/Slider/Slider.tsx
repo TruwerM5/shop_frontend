@@ -18,8 +18,8 @@ export default function Slider({
     const [currentIndex, setCurrentIndex] = useState(0);
     const sliderRef = useRef<HTMLUListElement | null>(null);
     function handleControlClick(index: number) {
-        const scrollTo = 500 * currentIndex;
-        sliderRef.current?.scrollBy({
+        const scrollTo = 300 * index;
+        sliderRef.current?.scrollTo({
             left: scrollTo
         });
         setCurrentIndex(index);
