@@ -1,6 +1,7 @@
 import "./description.css";
 import { useState } from "react";
 import clsx from "clsx";
+import { FiChevronDown } from "react-icons/fi";
 
 export default function ShortDesciption({
     description,
@@ -21,6 +22,10 @@ export default function ShortDesciption({
         "description__inner_opened": isOpened,
     });
 
+    const chevronClass = clsx("description__toggle-button-icon", {
+        "rotated": isOpened,
+    });
+
     return (
         <div className="description">
             <h5 className="title-sm">Description</h5>
@@ -33,7 +38,10 @@ export default function ShortDesciption({
                 onClick={handleClick} 
                 className="description__toggle-button"
             >
-                {isOpened ? 'Hide' : 'Show more'}
+                <span className="description__toggle-button-text">
+                    {isOpened ? 'Hide' : 'Show more'}
+                </span>
+                <FiChevronDown className={chevronClass} />
             </button>
         </div>
     )

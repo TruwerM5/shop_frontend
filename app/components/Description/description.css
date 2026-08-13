@@ -30,3 +30,17 @@
 .description__inner_opened::after {
     opacity: 0;
 }
+
+.description__toggle-button {
+    display: flex;
+    align-items: center;
+}
+
+.description__toggle-button-icon {
+    transition: transform .2s;
+    transform-origin: center center;
+}
+
+.description__toggle-button-icon.rotated {
+    transform: rotate(180deg);
+}
