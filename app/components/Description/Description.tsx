@@ -1,11 +1,10 @@
 import "./description.css";
 import { useState } from "react";
 import clsx from "clsx";
+
 export default function ShortDesciption({
-    link,
     description,
 }: {
-    link: `#${string}`;
     description?: string
 }) {
     if(!description) {
