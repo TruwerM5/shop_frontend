@@ -2,9 +2,11 @@ import { useState } from "react"
 import clsx from "clsx";
 import "./description.css";
 
-export default function Desciption({
-    description
+export default function ShortDesciption({
+    link,
+    description,
 }: {
+    link: `#${string}`;
     description?: string
 }) {
     if(!description) {
@@ -28,9 +30,9 @@ export default function Desciption({
                     {description}
                 </p>
             </div>
-            <button className="description__toggle-button" onClick={handleClick}>
-                {isOpened ? 'Hide' : 'Show more'}
-            </button>
+            <a href={link} className="description__toggle-button">
+                Show more
+            </a>
         </div>
     )
 }
