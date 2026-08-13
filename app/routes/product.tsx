@@ -11,6 +11,7 @@ import Rating from "~/components/Rating/Rating";
 import { IoBagAdd } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import Slider from "~/components/Slider/Slider";
 
 export function meta({
     loaderData,
@@ -60,15 +61,31 @@ export default function ProductPage({
         .then(() => {
             setIsInWishlist(!isInWishlist);
         });
-        
     }
+
+    const images: typeof productImages = [
+        {
+            productId: 1,
+            imagePath: 'https://i.imgur.com/l7C8GNJ.jpeg',
+        },{
+            productId: 1,
+            imagePath: 'https://i.imgur.com/1K8k707.jpeg',
+        },{
+            productId: 1,
+            imagePath: 'https://i.imgur.com/C3JC3rK.jpeg',
+        }
+    ];
 
     return (
         <div className="page product-page">
             <BreadCrumbs paths={breadCrumbsPaths} />
             <div className="product">
                 <div className="product__image-wrapper">
-                    <img src={emptyImage} alt={name} className="produt__image" />
+                    {images.length > 0 ? (
+                        <Slider images={images} name={name} />
+                    ) : (
+                        <img src={emptyImage} alt={name} className="produt__image" />
+                    )}
                 </div>
                 <div className="product__main-info">
                     <span className="product__name">
@@ -83,14 +100,14 @@ export default function ProductPage({
                     </span>}
                     <Rating rating={rating} />
                     <div className="product__actions">
-                        <Button 
+                        <Button
                             text="Add to cart"
                             type="button"
                             onClick={handleAddToCart}
                             customClass="product__add-to-cart-btn"
                             icon={<IoBagAdd />}
                         />
-                        <Button 
+                        <Button
                             type="button"
                             onClick={handleAddToWishlist}
                             customClass="product__add-to-wishlist-btn"
@@ -101,7 +118,6 @@ export default function ProductPage({
                                 )}
                         />
                     </div>
-                    
                 </div>
                 <div className="product__bottom">
                     <div className="product__recommended-products">
