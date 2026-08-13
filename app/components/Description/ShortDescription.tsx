@@ -1,5 +1,3 @@
-import { useState } from "react"
-import clsx from "clsx";
 import "./description.css";
 
 export default function ShortDesciption({
@@ -13,19 +11,9 @@ export default function ShortDesciption({
         return null;
     }
 
-    const [isOpened, setIsOpened] = useState(false);
-
-    function handleClick() {
-        setIsOpened(!isOpened);
-    }
-
-    const descriptionInnerClass = clsx("description__inner", {
-        "description__inner_opened": isOpened,
-    });
-
     return (
         <div className="description">
-            <div className={descriptionInnerClass}>
+            <div className="description__inner">
                 <p className="description__text">
                     {description}
                 </p>
