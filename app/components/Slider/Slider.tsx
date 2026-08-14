@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useState, useRef } from "react";
 import { FaCircle } from "react-icons/fa";
 import { FaRegCircle } from "react-icons/fa6";
@@ -17,7 +18,11 @@ export default function Slider({
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const sliderRef = useRef<HTMLUListElement | null>(null);
-
+    const [isModalOpened, setIsModalOpened] = useState(false);
+    const sliderModalClass = clsx("slider-modal fixed inset-0 w-full h-full z-10 bg-white px-3", {
+        "opened": isModalOpened,
+        "hidden": !isModalOpened,
+    });
     function scrollToSlide(index: number) {
         const slider = sliderRef.current;
         if(!slider) return;
@@ -55,13 +60,14 @@ export default function Slider({
                         scroll-smooth"
                 >
                     {images.map((image, index) => (
-                        <li key={index} className="slider__item min-w-full snap-center">
-                            <img
-                                src={image.imagePath}
-                                alt={name}
-                                className="slider__image w-full min-w-full max-h-[300px] object-cover"
-                            />
-                        </li>
+                        <SliderItem
+                            key={index}
+                            name={name}
+                            imagePath={image.imagePath}
+                            onClick={() => {
+                                setIsModalOpened(true)
+                            }}
+                        />
                     ))}
                 </ul>
             </div>
@@ -76,6 +82,48 @@ export default function Slider({
                     </button>
                 ))}
             </div>
+            <div className={sliderModalClass}>
+                <div className="slider-modal__inner h-full flex items-center justify-center">
+                    <ul className="slider-modal__list flex sm:max-full lg:max-w-1/2 overflow-hidden">
+                        {images.map((image, index) => (
+                            <SliderItem
+                                key={index}
+                                name={name}
+                                imagePath={image.imagePath}
+                                isLarge
+                            />
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </div>
+    )
+}
+
+interface SliderItemProps {
+    imagePath: string;
+    name: string;
+    isLarge?: boolean;
+    onClick?: () => void;
+}
+
+function SliderItem({
+    imagePath,
+    name,
+    isLarge,
+    onClick,
+}: SliderItemProps) {
+    const imageClass = clsx("slider__image w-full object-cover", {
+        "max-h-[300px]": !isLarge,
+        "h-[500px]": isLarge,
+    });
+    return (
+        <li className="slider__item min-w-full snap-center" onClick={onClick}>
+            <img
+                src={imagePath}
+                alt={name}
+                className={imageClass}
+            />
+        </li>
     )
 }
