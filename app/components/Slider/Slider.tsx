@@ -88,7 +88,13 @@ export default function Slider({
                     <VscCloseCompact />
                 </button>
                 <div className="slider-modal__inner h-full flex items-center justify-center">
-                    <ul className="slider-modal__list flex sm:max-full lg:max-w-1/2 overflow-hidden">
+                    <ul className="slider-modal__list
+                        flex
+                        overflow-scroll
+                        snap-x
+                        snap-mandatory
+                        scrollbar-none
+                        scroll-smooth flex items-center sm:max-full lg:max-w-1/2 overflow-hidden">
                         {images.map((image, index) => (
                             <SliderItem
                                 key={index}
@@ -118,8 +124,8 @@ function SliderItem({
     onClick,
 }: SliderItemProps) {
     const imageClass = clsx("slider__image w-full object-cover", {
-        "max-h-[300px]": !isLarge,
-        "h-[500px]": isLarge,
+        "sm:max-h-[300px] max-h-[300px]": !isLarge,
+        "sm:h-[200px] lg:h-[500px]": isLarge,
     });
     return (
         <li className="slider__item min-w-full snap-center" onClick={onClick}>
