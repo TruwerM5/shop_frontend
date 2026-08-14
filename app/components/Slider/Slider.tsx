@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useState, useRef } from "react";
 import { FaCircle } from "react-icons/fa";
 import { FaRegCircle } from "react-icons/fa6";
+import { VscCloseCompact } from "react-icons/vsc";
 
 interface SliderProps {
     name: string;
@@ -83,6 +84,9 @@ export default function Slider({
                 ))}
             </div>
             <div className={sliderModalClass}>
+                <button onClick={() => setIsModalOpened(false)} className="absolute top-4 right-4">
+                    <VscCloseCompact />
+                </button>
                 <div className="slider-modal__inner h-full flex items-center justify-center">
                     <ul className="slider-modal__list flex sm:max-full lg:max-w-1/2 overflow-hidden">
                         {images.map((image, index) => (
