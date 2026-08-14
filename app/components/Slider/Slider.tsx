@@ -17,18 +17,43 @@ export default function Slider({
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const sliderRef = useRef<HTMLUListElement | null>(null);
-    function handleControlClick(index: number) {
-        const scrollTo = 300 * index;
-        sliderRef.current?.scrollTo({
-            left: scrollTo
+
+    function scrollToSlide(index: number) {
+        const slider = sliderRef.current;
+        if(!slider) return;
+        const slide: Element | undefined = slider.children[index];
+        slide?.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center",
         });
+        setCurrentIndex(index);
+    }
+
+    function handleScrollEnd() {
+        const slider = sliderRef.current;
+        if(!slider) return;
+        const index = Math.round(
+            slider.scrollLeft / slider.clientWidth
+        );
         setCurrentIndex(index);
     }
 
     return (
         <div className="slider">
             <div className="slider__inner relative overflow-hidden">
-                <ul ref={sliderRef} className="slider__list flex  overflow-hidden snap-x snap-mandatory scrollbar-none scroll-smooth">
+                <ul
+                    ref={sliderRef}
+                    onScrollEnd={handleScrollEnd}
+                    className="
+                        slider__list
+                        flex
+                        overflow-scroll
+                        snap-x
+                        snap-mandatory
+                        scrollbar-none
+                        scroll-smooth"
+                >
                     {images.map((image, index) => (
                         <li key={index} className="slider__item min-w-full snap-center">
                             <img
@@ -42,7 +67,7 @@ export default function Slider({
             </div>
             <div className="slider__controls flex gap-2 justify-center my-2">
                 {images.map((_, index) => (
-                    <button key={index} onClick={() => handleControlClick(index)}>
+                    <button key={index} onClick={() => scrollToSlide(index)}>
                         {index === currentIndex ? (
                             <FaCircle />
                         ) : (
