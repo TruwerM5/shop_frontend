@@ -1,0 +1,14 @@
+.carousel__header {
+    margin-bottom: 10px;
+}
+
+.carousel__inner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media screen and (min-width: 1024px) {
+    .carousel__inner {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}

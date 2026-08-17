@@ -18,7 +18,7 @@ export default function ProductItem({
     return (
         <div className="product-item">
             <Link to={priductPageUrl} className="product-item__image-wrapper">
-                {productImages.length > 0 ? (
+                {productImages?.length > 0 ? (
                     <img src={productImages[0].imagePath} alt={name} className="product-item__image" loading="lazy" />
                 ) : (
                     <img src={emptyImage} alt={name} className="product-item__image" loading="lazy" />

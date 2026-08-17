@@ -123,7 +123,7 @@ function SliderItem({
     isLarge,
     onClick,
 }: SliderItemProps) {
-    const imageClass = clsx("slider__image w-full object-cover", {
+    const imageClass = clsx("slider__image w-full h-full object-cover", {
         "sm:max-h-[300px] max-h-[300px]": !isLarge,
         "sm:h-[200px] lg:h-[500px]": isLarge,
     });

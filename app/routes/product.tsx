@@ -1,6 +1,6 @@
 import "@styles/page.css";
 import { useState } from "react";
-import { getProductById } from "~/api/products.api";
+import { getProductById, getProductsByCategory } from "~/api/products.api";
 import type { Route } from "./+types/product";
 import emptyImage from "@assets/images/empty-image.png";
 import "~/styles/product-page.css";
@@ -12,27 +12,31 @@ import { IoBagAdd } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import Slider from "~/components/Slider/Slider";
+import Carousel from "~/components/Carousel/Carousel";
+import ProductItem from "~/components/ProductItem/ProductItem";
 
 export function meta({
     loaderData,
 }: Route.MetaArgs) {
   return [
-    { title: `${loaderData?.name} | NovaMarket` },
+    { title: `${loaderData?.product.name} | NovaMarket` },
   ];
 }
 
 export async function clientLoader({
     params
 }: Route.ClientLoaderArgs) {
-    const { data } = await getProductById(Number(params.id));
-    return data;
+    const { data: product } = await getProductById(Number(params.id));
+    const { data: recommended } = await getProductsByCategory(product.category, product.productId);
+    return { product, recommended };
 }
 
 export default function ProductPage({
     loaderData
 }: Route.ComponentProps) {
-    const { productId, name, price, productDetails, rating, productImages } = loaderData;
-    const { description, size, category, color, author } = productDetails;
+    const { product, recommended } = loaderData;
+    const { productId, name, price, category, productDetails, rating, productImages } = product;
+    const { description, size, color, author } = productDetails;
     const breadCrumbsPaths = [{
         id: 1,
         title: 'Catalog',
@@ -120,9 +124,16 @@ export default function ProductPage({
                     </div>
                 </div>
                 <div className="product__bottom">
+                    {recommended.length > 0 && 
                     <div className="product__recommended-products">
-                        <h5 className="title-sm">Recommended</h5>
-                    </div>
+                        <Carousel header="Recommended">
+                            <>
+                                {recommended.map((item) => (
+                                    <ProductItem key={item.productId} product={item} />
+                                ))}
+                            </>
+                        </Carousel>
+                    </div>}
                     <Description description={description} />
                 </div>
             </div>

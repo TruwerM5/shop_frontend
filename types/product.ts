@@ -1,9 +1,16 @@
 
+export enum ProductCategory {
+    gadgets = 'gadgets',
+    books = 'books',
+    clothes = 'clothes',
+}
+
 export interface ApiGetProductItem {
     productId: number;
     name: string;
     price: number;
     rating: number;
+    category: ProductCategory;
     sellerId: number;
     productImages: ApiGetProductImages[];
 }
@@ -15,7 +22,6 @@ export interface ApiGetProductImages {
 
 export interface ApiGetProductDetails {
     productId: number;
-    category: string;
     size: string | null;
     color: string | null;
     author?: string;
