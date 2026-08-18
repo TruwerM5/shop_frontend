@@ -2,6 +2,7 @@
 
 .description {
     width: 100%;
+    margin-block: 15px;
 }
 
 .description__inner {

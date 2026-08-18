@@ -2,6 +2,8 @@
 
 .product-item {
     position: relative;
+    display: flex;
+    flex-direction: column;
     border-radius: 15px;
     overflow: hidden;
     font-family: Onest, sans-serif;
@@ -20,8 +22,10 @@
 .product-item__info {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 5px;
     padding: 10px;
+    flex: 1;
 }
 
 .product-item__name {
