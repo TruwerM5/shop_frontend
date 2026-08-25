@@ -4,13 +4,14 @@ import { FaCircle } from "react-icons/fa";
 import { FaRegCircle } from "react-icons/fa6";
 import { VscCloseCompact } from "react-icons/vsc";
 import SliderItem from "~/components/SliderItem/SliderItem";
+import "./slider.css";
 
 interface SliderProps {
     name: string;
     images: {
         productId: number;
         imagePath: string;
-    }[]
+    }[];
 }
 
 export default function Slider({
@@ -48,18 +49,11 @@ export default function Slider({
 
     return (
         <div className="slider">
-            <div className="slider__inner relative overflow-hidden">
+            <div className="slider__inner">
                 <ul
                     ref={sliderRef}
                     onScrollEnd={handleScrollEnd}
-                    className="
-                        slider__list
-                        flex
-                        overflow-scroll
-                        snap-x
-                        snap-mandatory
-                        scrollbar-none
-                        scroll-smooth"
+                    className="slider-list snap-x snap-mandatory"
                 >
                     {images.map((image, index) => (
                         <SliderItem
@@ -73,7 +67,7 @@ export default function Slider({
                     ))}
                 </ul>
             </div>
-            <div className="slider__controls flex gap-2 justify-center my-2">
+            <div className="slider__controls">
                 {images.map((_, index) => (
                     <button key={index} onClick={() => scrollToSlide(index)}>
                         {index === currentIndex ? (
@@ -88,14 +82,8 @@ export default function Slider({
                 <button onClick={() => setIsModalOpened(false)} className="absolute top-4 right-4">
                     <VscCloseCompact />
                 </button>
-                <div className="slider-modal__inner h-full flex items-center justify-center">
-                    <ul ref={sliderRef} className="slider-modal__list
-                        flex
-                        overflow-scroll
-                        snap-x
-                        snap-mandatory
-                        scrollbar-none
-                        scroll-smooth flex items-center sm:max-full lg:max-w-1/2 overflow-hidden">
+                <div className="slider-modal__inner">
+                    <ul ref={sliderRef} className="slider-list slider-list_lg snap-x snap-mandatory">
                         {images.map((image, index) => (
                             <SliderItem
                                 key={index}

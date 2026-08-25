@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import "./slider-item.css";
 
 interface SliderItemProps {
     imagePath: string;
@@ -13,12 +14,12 @@ export default function SliderItem({
     isLarge,
     onClick,
 }: SliderItemProps) {
-    const imageClass = clsx("slider__image w-full h-full object-cover", {
-        "sm:max-h-[300px] max-h-[300px]": !isLarge,
-        "sm:h-[200px] lg:h-[500px]": isLarge,
+    const imageClass = clsx("slider-item__image", {
+        "small": !isLarge,
+        "large": isLarge,
     });
     return (
-        <li className="slider__item min-w-full snap-center" onClick={onClick}>
+        <li className="slider-item" onClick={onClick}>
             <img
                 src={imagePath}
                 alt={name}

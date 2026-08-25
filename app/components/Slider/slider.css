@@ -1,0 +1,36 @@
+.slider__inner {
+    position: relative;
+    overflow: hidden;
+}
+
+.slider-list {
+    display: flex;
+    overflow: scroll;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+.slider-list.slider-list_lg {
+    max-width: 100%;
+    align-items: center;
+}
+
+@media screen and (min-width: 1024px) {
+    .slider-list.slider-list_lg {
+        max-width: 50%;
+    }
+}
+
+.slider__controls {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-block: 8px;
+}
+
+.slider-modal__inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
