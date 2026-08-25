@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import { FaCircle } from "react-icons/fa";
 import { FaRegCircle } from "react-icons/fa6";
 import { VscCloseCompact } from "react-icons/vsc";
+import SliderItem from "~/components/SliderItem/SliderItem";
 
 interface SliderProps {
     name: string;
