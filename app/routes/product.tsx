@@ -14,6 +14,7 @@ import { FaRegHeart } from "react-icons/fa";
 import Slider from "~/components/Slider/Slider";
 import Carousel from "~/components/Carousel/Carousel";
 import ProductItem from "~/components/ProductItem/ProductItem";
+import beautifyPrice from "~/helpers/beautify-price";
 
 export function meta({
     loaderData,
@@ -37,6 +38,8 @@ export default function ProductPage({
     const { product, recommended } = loaderData;
     const { productId, name, price, category, productDetails, rating, productImages } = product;
     const { description, size, color, author } = productDetails;
+    const beautifiedPrice = beautifyPrice(price);
+
     const breadCrumbsPaths = [{
         id: 1,
         title: 'Catalog',
@@ -96,7 +99,7 @@ export default function ProductPage({
                         {name}
                     </span>
                     <span className="product__price">
-                        &#36;{price}
+                        &#36;{beautifiedPrice}
                     </span>
                     {author && 
                     <span className="product__author-name">
