@@ -1,7 +1,5 @@
 import clsx from "clsx";
 import { useState, useRef } from "react";
-import { FaCircle } from "react-icons/fa";
-import { FaRegCircle } from "react-icons/fa6";
 import { VscCloseCompact } from "react-icons/vsc";
 import SliderItem from "~/components/SliderItem/SliderItem";
 import "./slider.css";
@@ -20,12 +18,8 @@ export default function Slider({
 }: SliderProps) {
 
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isLarge, setIsLarge] = useState(false);
     const sliderRef = useRef<HTMLUListElement | null>(null);
-    const [isModalOpened, setIsModalOpened] = useState(false);
-    const sliderModalClass = clsx("slider-modal fixed inset-0 w-full h-full z-10 bg-white px-3", {
-        "opened": isModalOpened,
-        "hidden": !isModalOpened,
-    });
     function scrollToSlide(index: number) {
         const slider = sliderRef.current;
         if(!slider) return;
@@ -47,9 +41,29 @@ export default function Slider({
         setCurrentIndex(index);
     }
 
+    function switchSlider() {
+        setIsLarge(!isLarge);
+    }
+
     return (
         <div className="slider">
-            <div className="slider__inner">
+            <div className={clsx("slider__inner", { "large": isLarge })}>
+                {isLarge && 
+                    <button onClick={switchSlider} className="slider__close-btn">
+                        <VscCloseCompact />
+                    </button>
+                }
+                <div className={clsx("slider__controls", { "active": isLarge })}>
+                    {images.map((image, index) => (
+                        <button
+                            key={index}
+                            onClick={() => scrollToSlide(index)}
+                            className={clsx("slider__control-btn", {"active": index === currentIndex})}
+                        >
+                            <img src={image.imagePath} alt={name} className="slider__control-image" />
+                        </button>
+                    ))}
+                </div>
                 <ul
                     ref={sliderRef}
                     onScrollEnd={handleScrollEnd}
@@ -60,47 +74,12 @@ export default function Slider({
                             key={index}
                             name={name}
                             imagePath={image.imagePath}
-                            onClick={() => {
-                                setIsModalOpened(true)
-                            }}
+                            onClick={switchSlider}
                         />
                     ))}
                 </ul>
             </div>
-            <div className="slider__controls">
-                {images.map((_, index) => (
-                    <button key={index} onClick={() => scrollToSlide(index)}>
-                        {index === currentIndex ? (
-                            <FaCircle />
-                        ) : (
-                            <FaRegCircle />
-                        )}
-                    </button>
-                ))}
-            </div>
-            <div className={sliderModalClass}>
-                <button onClick={() => setIsModalOpened(false)} className="absolute top-4 right-4">
-                    <VscCloseCompact />
-                </button>
-                <div className="slider-modal__inner">
-                    <ul ref={sliderRef} className="slider-list slider-list_lg snap-x snap-mandatory">
-                        {images.map((image, index) => (
-                            <SliderItem
-                                key={index}
-                                name={name}
-                                imagePath={image.imagePath}
-                                isLarge
-                            />
-                        ))}
-                    </ul>
-                </div>
-            </div>
         </div>
     )
 }
-
-function SliderList({
-
-}) {}
-
 

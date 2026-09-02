@@ -1,6 +1,35 @@
+@import "tailwindcss";
+
 .slider__inner {
     position: relative;
     overflow: hidden;
+    display: flex;
+    gap: 8px;
+}
+
+.slider__inner.large {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+    
+    @apply bg-white;
+}
+
+@media screen and (min-width: 1024px) {
+    .slider__inner.large {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 50px;
+    }
 }
 
 .slider-list {
@@ -8,29 +37,81 @@
     overflow: scroll;
     scrollbar-width: none;
     scroll-behavior: smooth;
-}
-
-.slider-list.slider-list_lg {
-    max-width: 100%;
-    align-items: center;
+    margin: 0 auto;
+    flex: 1;
 }
 
 @media screen and (min-width: 1024px) {
-    .slider-list.slider-list_lg {
-        max-width: 50%;
+    .slider-list {
+        height: 400px;
+    }
+}
+
+.slider__inner.large .slider-list {
+    width: 300px;
+    height: 300px;
+}
+
+@media screen and (min-width: 1024px) {
+    .slider__inner.large .slider-list {
+        max-width: 600px;
+        height: 600px;
     }
 }
 
 .slider__controls {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-block: 8px;
+    display: none;
+    max-width: 100%;
+    overflow: scroll;
+    scrollbar-width: none;
 }
 
-.slider-modal__inner {
-    height: 100%;
+.slider__controls.active {
     display: flex;
-    align-items: center;
     justify-content: center;
+    gap: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+    .slider__controls {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+.slider__control-btn {
+    width: 70px;
+    height: 70px;
+    padding: 2px;
+    @apply border-2 border-white;
+}
+
+.slider__control-btn.active {
+    @apply border-2 border-black;
+}
+
+.slider__inner.large .slider__control-btn {
+    width: 50px;
+    height: 50px;
+}
+
+@media screen and (min-width: 1024px) {
+    .slider__inner.large .slider__control-btn {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+
+.slider__control-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slider__close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
 }
