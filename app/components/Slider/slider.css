@@ -22,7 +22,7 @@
     @apply bg-white;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
     .slider__inner.large {
         display: flex;
         flex-direction: row;
@@ -41,7 +41,7 @@
     flex: 1;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
     .slider-list {
         height: 400px;
     }
@@ -52,7 +52,7 @@
     height: 300px;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
     .slider__inner.large .slider-list {
         max-width: 600px;
         height: 600px;
@@ -72,7 +72,7 @@
     gap: 8px;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
     .slider__controls {
         display: flex;
         flex-direction: column;
@@ -96,7 +96,7 @@
     height: 50px;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
     .slider__inner.large .slider__control-btn {
         width: 100px;
         height: 100px;
