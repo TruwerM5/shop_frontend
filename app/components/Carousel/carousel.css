@@ -25,7 +25,7 @@
     scrollbar-width: auto;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 600px) {
     .carousel__list {
         gap: 15px;
         scrollbar-width: none;

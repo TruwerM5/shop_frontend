@@ -11,25 +11,18 @@ export default function Carousel({
     children: React.JSX.Element
 }) {
 
-    const carouselRef = useRef<HTMLDivElement | null>(null);
-    const scrollWidth = carouselRef.current?.scrollWidth
-    function handleClickLeft() {
-        if(!carouselRef.current) {
+    const carouselRef = useRef<HTMLDivElement | null>(null);    
+    function scrollCarousel(direction: "right" | "left") {
+        const carousel = carouselRef.current;
+        if(!carousel) {
             return;
         }
-        carouselRef.current.scrollBy({
-            left: scrollWidth ? -scrollWidth : 0,
-            behavior: 'smooth',
-        });
-    }
 
-    function handleClickRight() {
-        if(!carouselRef.current) {
-            return;
-        }
-        carouselRef.current.scrollBy({
-            left: scrollWidth ?? 0,
-            behavior: 'smooth',
+        carousel.scrollBy({
+            left: direction === "left"
+                ? -carousel.clientWidth
+                : carousel.clientWidth,
+            behavior: "smooth",
         });
     }
 
@@ -40,10 +33,10 @@ export default function Carousel({
             </div>
             <div className="carousel__inner">
                 <div className="carousel__controls">
-                    <button onClick={handleClickLeft} className="carousel__btn carousel__btn_left">
+                    <button onClick={() => scrollCarousel("left")} className="carousel__btn carousel__btn_left">
                         <FaCircleArrowLeft />
                     </button>
-                    <button onClick={handleClickRight} className="carousel__btn carousel__btn_right">
+                    <button onClick={() => scrollCarousel("right")} className="carousel__btn carousel__btn_right">
                         <FaCircleArrowRight />
                     </button>
                 </div>
