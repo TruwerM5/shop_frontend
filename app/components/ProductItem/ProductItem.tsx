@@ -2,6 +2,7 @@ import emptyImage from "@assets/images/empty-image.png";
 import { Link } from "react-router";
 import type { ApiGetProductItem } from "../../../types/product";
 import "./product-item.css"
+import beautifyPrice from "~/helpers/beautify-price";
 
 interface ProductItemProps {
     product: ApiGetProductItem;
@@ -10,15 +11,15 @@ interface ProductItemProps {
 export default function ProductItem({
     product
 }: ProductItemProps) {
-
+    
     const { productId, name, price, productImages } = product;
-
+    const beautifiedPrice = beautifyPrice(price);
     const priductPageUrl = `/product/${productId}`;
 
     return (
         <div className="product-item">
             <Link to={priductPageUrl} className="product-item__image-wrapper">
-                {productImages.length > 0 ? (
+                {productImages?.length > 0 ? (
                     <img src={productImages[0].imagePath} alt={name} className="product-item__image" loading="lazy" />
                 ) : (
                     <img src={emptyImage} alt={name} className="product-item__image" loading="lazy" />
@@ -29,7 +30,7 @@ export default function ProductItem({
                     {name}
                 </Link>
                 <span className="product-item__price">
-                    {price}&#36;
+                    {beautifiedPrice}&#36;
                 </span>
             </div>
         </div>

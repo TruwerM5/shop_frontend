@@ -1,0 +1,31 @@
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rating__stars {
+    display: flex;
+    gap: 4px;
+}
+
+.rating__star {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
+.rating__star-icon {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.rating__star-icon_filled {
+    width: 16px;
+    height: 16px;
+    left: 2px;
+    top: 2px;
+}

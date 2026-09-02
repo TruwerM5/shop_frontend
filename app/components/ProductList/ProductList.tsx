@@ -1,5 +1,5 @@
 import type { ApiGetProductItem } from "../../../types/product";
-import ProductItem from "@/components/ProductItem/ProductItem";
+import ProductItem from "~/components/ProductItem/ProductItem";
 import "./product-list.css";
 
 interface ProductListProps {

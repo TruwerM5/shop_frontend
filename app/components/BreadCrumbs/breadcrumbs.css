@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+
+.breadcrumbs {
+    margin-bottom: 30px;
+}
+
+.breadcrumbs__list {
+    display: flex;
+    gap: 30px;
+}
+
+.breadcrumb-item {
+    position: relative;
+    text-transform: capitalize;
+}
+
+@media screen and (min-width: 1024px) {
+    .breadcrumb-item {
+        font-size: 18px;
+    }
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    position: absolute;
+    right: -15px;
+}
+
+.breadcrumb-link.active {
+    @apply text-blue-500;
+}
