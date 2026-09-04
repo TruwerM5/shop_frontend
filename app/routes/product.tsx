@@ -15,6 +15,8 @@ import Slider from "~/components/Slider/Slider";
 import Carousel from "~/components/Carousel/Carousel";
 import ProductItem from "~/components/ProductItem/ProductItem";
 import beautifyPrice from "~/helpers/beautify-price";
+import { addToCart } from "~/api/cart.api";
+import { useCartStore } from "~/stores/cart.store";
 
 export function meta({
     loaderData,
@@ -38,6 +40,7 @@ export default function ProductPage({
     const { product, recommended } = loaderData;
     const { productId, name, price, category, productDetails, rating, productImages } = product;
     const { description, size, color, author } = productDetails;
+    const cartStore = useCartStore();
     const beautifiedPrice = beautifyPrice(price);
 
     const breadCrumbsPaths = [{
@@ -57,8 +60,13 @@ export default function ProductPage({
     
     const [isInWishlist, setIsInWishlist] = useState(false);
 
+    // TODO
     async function handleAddToCart() {
-        
+        try {
+            const { data } = await addToCart(productId);
+        } catch {
+
+        }
     }
 
     async function handleAddToWishlist() {
