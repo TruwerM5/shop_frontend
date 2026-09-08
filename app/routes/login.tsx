@@ -1,23 +1,23 @@
 import { useState } from "react"
 import { useUserStore } from "~/stores/user.store";
-import type { LogInUserDto } from '../../types/user';
+import type { LoginRequest } from "@shop/contracts";
 import AuthForm from '~/components/AuthForm';
 import InputText from "~/components/InputText/InputText";
 
 export default function LoginPage() {
     const login = useUserStore((state) => state.login);
 
-    const [loginData, setLoginData] = useState<LogInUserDto>({
+    const [loginData, setLoginData] = useState<LoginRequest>({
         email: '',
         password: '',
     });
 
-    const [loginErrors, setLoginErrors] = useState<LogInUserDto>({
+    const [loginErrors, setLoginErrors] = useState<LoginRequest>({
         email: '',
         password: '',
     });
 
-    function handleChange(key: keyof LogInUserDto, value: string) {
+    function handleChange(key: keyof LoginRequest, value: string) {
         setLoginData({
             ...loginData,
             [key]: value,

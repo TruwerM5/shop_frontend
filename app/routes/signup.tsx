@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useUserStore } from "~/stores/user.store";
-import type { SignUpUserDto } from '../../types/user';
+import type { SignupRequest } from "@shop/contracts";
 import AuthForm from '~/components/AuthForm';
 import InputText from '~/components/InputText/InputText';
 import { validateSignUpData } from '~/helpers/validate-user';
@@ -8,21 +8,21 @@ import { validateSignUpData } from '~/helpers/validate-user';
 export default function SignUpPage() {
     const signUp = useUserStore((state) => state.signUp);
 
-    const [signUpData, setSignUpData] = useState<SignUpUserDto>({
+    const [signUpData, setSignUpData] = useState<SignupRequest>({
         name: '',
         email: '',
         password: '',
         confirmPassword: '',
     });
 
-    const [signUpErrors, setSignUpErros] = useState<SignUpUserDto>({
+    const [signUpErrors, setSignUpErros] = useState<SignupRequest>({
         name: '',
         email: '',
         password: '',
         confirmPassword: '',
     });
 
-    function handleChange(key: keyof SignUpUserDto, value: string) {
+    function handleChange(key: keyof SignupRequest, value: string) {
         setSignUpData((currentState) => ({
             ...currentState,
             [key]: value,
@@ -31,9 +31,9 @@ export default function SignUpPage() {
 
     async function submit() {
         try {
-            const { success, validationResults } = validateSignUpData<SignUpUserDto>(signUpData);
+            const { success, validationResults } = validateSignUpData<SignupRequest>(signUpData);
 
-            const errors: SignUpUserDto = {
+            const errors: SignupRequest = {
                 name: '',
                 email: '',
                 password: '',

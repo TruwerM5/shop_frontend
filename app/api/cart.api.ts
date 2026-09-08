@@ -1,5 +1,5 @@
 import api from ".";
-import type { Cart, CartItem } from "../../types/cart";
+import type { Cart, CartItem } from "@shop/contracts";
 
 export const getCart = async () => {
     return api.get('/cart');

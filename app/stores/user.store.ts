@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { getUserPayload, signUpUser, loginUser, logoutUser } from "~/api/auth.api";
-import type { ApiUserPayload, UserStore } from "../../types/user";
-
+import type { UserStore } from "../../types/user";
+import type { UserResponse } from "@shop/contracts";
 export const useUserStore = create<UserStore>((set) => ({
     authStatus: "idle",
     isAuthInitialized: false,
     user: { userId: null },
-    setUser: (userData: ApiUserPayload) => {
+    setUser: (userData: UserResponse) => {
         set({
             authStatus: userData.userId ? "authenticated" : "unauthenticated",
             user: userData,

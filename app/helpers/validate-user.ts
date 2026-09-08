@@ -1,4 +1,4 @@
-import type { SignUpUserDto } from '../../types/user';
+import type { SignupRequest } from '@shop/contracts';
 import { minLength, required, email, equals } from './index';
 import type { ValidateSchema } from './index';
 interface SuccessValidate {
@@ -13,7 +13,7 @@ interface ErrorValidate<T> {
     }[];
 }
 
-export type ValidateSignUpData = SuccessValidate | ErrorValidate<SignUpUserDto>;
+export type ValidateSignUpData = SuccessValidate | ErrorValidate<SignupRequest>;
 
 
 const validate = <T>(fields: ValidateSchema<T>) => {
@@ -42,8 +42,8 @@ const validate = <T>(fields: ValidateSchema<T>) => {
     return { success, validationResults };
 }
 
-export const validateSignUpData = <T>(data: SignUpUserDto) => {
-    const signUpValidationFields: ValidateSchema<SignUpUserDto> = [
+export const validateSignUpData = <T>(data: SignupRequest) => {
+    const signUpValidationFields: ValidateSchema<SignupRequest> = [
         {
             field: 'name',
             validators: [
@@ -73,6 +73,6 @@ export const validateSignUpData = <T>(data: SignUpUserDto) => {
         },
     ];
 
-    return validate<SignUpUserDto>(signUpValidationFields);
+    return validate<SignupRequest>(signUpValidationFields);
 
 }

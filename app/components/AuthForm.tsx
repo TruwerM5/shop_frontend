@@ -1,13 +1,12 @@
 import { Link, useNavigate, useLocation } from 'react-router';
 import Button from './Button/Button';
 import "@styles/auth-form.css";
-import type { ApiUserPayload } from '../../types/user';
-import { useState } from 'react';
+import type { UserResponse } from '@shop/contracts';
 
 interface AuthFormProps {
     head: React.ReactElement;
     body: React.ReactElement;
-    onSubmit: () => Promise<ApiUserPayload | boolean>;
+    onSubmit: () => Promise<UserResponse | boolean>;
     action: 'Sign in' | 'Sign up';
     redirect?: string;
 }
