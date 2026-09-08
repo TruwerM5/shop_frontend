@@ -1,10 +1,11 @@
-import type { ApiGetProductItem } from "../../../types/product";
 import ProductItem from "~/components/ProductItem/ProductItem";
 import "./product-list.css";
+import type { ProductResponse } from "@shop/contracts";
+
 
 interface ProductListProps {
-    products: ApiGetProductItem[];
-}
+    products: ProductResponse[];
+};
 
 export default function ProductList({
     products

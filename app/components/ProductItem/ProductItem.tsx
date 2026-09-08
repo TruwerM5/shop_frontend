@@ -1,12 +1,12 @@
 import emptyImage from "@assets/images/empty-image.png";
 import { Link } from "react-router";
-import type { ApiGetProductItem } from "../../../types/product";
-import "./product-item.css"
+import type { ProductResponse } from "@shop/contracts";
+import "./product-item.css";
 import beautifyPrice from "~/helpers/beautify-price";
 
 interface ProductItemProps {
-    product: ApiGetProductItem;
-}
+    product: ProductResponse;
+};
 
 export default function ProductItem({
     product
