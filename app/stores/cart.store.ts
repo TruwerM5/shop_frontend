@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import type { CartItem, CartStore } from "@shop/contracts";
+import type { CartItemResponse, CartResponse } from "@shop/contracts";
+import type { CartStore } from "../../types/cart";
 import { getCart } from "~/api/cart.api";
 
 export const useCartStore = create<CartStore>((set, get) => ({
-    items: [],
+    cart: <CartResponse>({}),
     fetchCart: async () => {
         const { data } = await getCart();
         if(!data) {
@@ -11,9 +12,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
         }
     },
     getCartSize: () => {
-        return get().items.reduce((acc, item) => acc + item.quantity, 0);
+        return get().cart.items.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
     },
-    setItems: (items: CartItem[]) => {
-        set({ items });
+    setItems: (cart: CartResponse) => {
+        set({ 
+            cart
+        });
     }
 }))

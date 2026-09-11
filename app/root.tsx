@@ -17,7 +17,9 @@ import GlobalLoading from "./components/GlobalLoading/GlobalLoading";
 import { useEffect, useMemo } from "react";
 import { useUserNav } from "./hooks/useUserNav";
 import { getUserPayload } from "./api/auth.api";
+import { getCart } from "./api/cart.api";
 import { PROTECTED_ROUTES } from "./constants";
+import { useCartStore } from "./stores/cart.store";
 
 export function Layout({ 
   children,
@@ -62,6 +64,8 @@ export default function App() {
     }), 
     [pathname]
   );
+
+  const setCartItems = useCartStore((state) => state.setItems);
  
 
   useEffect(() => {
@@ -73,13 +77,26 @@ export default function App() {
         setAuthInitialized(true);
       }
     }
+
+    async function fetchCart() {
+      const { data } = await getCart();
+      // TODO
+      // setCartItems(data);
+    }
     
     isAuthenticated();
+    fetchCart();
   }, [
     setUser,
     setAuthInitialized,
   ]);
 
+  useEffect(() => {
+
+  }, [
+    setUser,
+    setAuthInitialized
+  ])
 
   if (!isAuthInitialized) {
     return <GlobalLoading />;

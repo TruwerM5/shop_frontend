@@ -1,15 +1,8 @@
-export interface Cart {
-    cartId: number;
-    token: string;
-    userId: number | null;
-    createdAt: Date;
-    updatedAt: Date;
-    expiresAt: Date | null;
-}
+import type { CartItemResponse, CartResponse } from "@shop/contracts";
 
-export interface CartItem {
-    cartId: number;
-    cartItemId: number;
-    productId: number;
-    quantity: number;
+export interface CartStore {
+    cart: CartResponse;
+    fetchCart: () => Promise<void>;
+    getCartSize: () => number;
+    setItems: (cart: CartResponse) => void;
 }
