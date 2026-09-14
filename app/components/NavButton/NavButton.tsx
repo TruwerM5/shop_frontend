@@ -6,8 +6,8 @@ import { useCartStore } from "~/stores/cart.store";
 export default function NavButton(props: NavItem) {
     const { title, type, icon: Icon } = props;
     const className = "nav-button";
-    const cartSize = useCartStore((state) => state.getCartSize);
-
+    const getCartSize = useCartStore((state) => state.getCartSize);
+    const cartSize = getCartSize();
     if(type === "link") {
         return (
             <Link
@@ -16,7 +16,7 @@ export default function NavButton(props: NavItem) {
             >
                 {props.href === '/cart' &&
                     <span>
-                        {cartSize()}
+                        {cartSize}
                     </span>
                 } 
                 {Icon && <Icon />}
