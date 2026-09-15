@@ -4,23 +4,23 @@ import type { CartStore } from "../../types/cart";
 import { getCart } from "~/api/cart.api";
 
 export const useCartStore = create<CartStore>((set, get) => ({
-    cart: <CartResponse | null>(null),
+    cart: <CartResponse>({
+        items: null,
+    }),
     fetchCart: async () => {
         const { data } = await getCart();
         if(!data) {
             return;
         }
     },
-    getCartSize: () => {
+    getCartSize: (): number => {
         const cart = get().cart;
-        if(!cart) {
+        if(!cart.items) {
             return 0;
         }
-        return cart.items.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
+        return cart.items.reduce((acc, item) => acc + item.quantity, 0);
     },
     setItems: (cart: CartResponse) => {
-        set({ 
-            cart
-        });
-    }
-}))
+        set({ cart });
+    },
+}));
