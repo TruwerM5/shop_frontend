@@ -66,8 +66,7 @@ export default function App() {
   );
 
   const setCartItems = useCartStore((state) => state.setItems);
- 
-
+  
   useEffect(() => {
     async function isAuthenticated() {
       try {
@@ -80,23 +79,18 @@ export default function App() {
 
     async function fetchCart() {
       const { data } = await getCart();
-      // TODO
-      // setCartItems(data);
+      setCartItems(data);
     }
-    
-    isAuthenticated();
-    fetchCart();
+
+    Promise.allSettled([
+      isAuthenticated(),
+      fetchCart(),
+    ]);
   }, [
     setUser,
     setAuthInitialized,
+    setCartItems,
   ]);
-
-  useEffect(() => {
-
-  }, [
-    setUser,
-    setAuthInitialized
-  ])
 
   if (!isAuthInitialized) {
     return <GlobalLoading />;
