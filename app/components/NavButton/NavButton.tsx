@@ -14,15 +14,15 @@ export default function NavButton(props: NavItem) {
                 to={props.href}
                 className={className}
             >
-                {props.href === '/cart' &&
-                    <span>
-                        {cartSize}
-                    </span>
-                } 
                 {Icon && <Icon />}
                 <span className="nav-button__title">
                     {title}
                 </span>
+                {props.href === '/cart' && cartSize > 0 &&
+                    <span className="nav-button__cart-size">
+                        {cartSize}
+                    </span>
+                }
             </Link>
         )
     }
