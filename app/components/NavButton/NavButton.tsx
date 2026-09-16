@@ -2,11 +2,15 @@ import { Link } from "react-router";
 import type { NavItem } from "../../../types/nav";
 import "./nav-button.css";
 import { useCartStore } from "~/stores/cart.store";
+import { useCallback } from "react";
 
 export default function NavButton(props: NavItem) {
     const { title, type, icon: Icon } = props;
     const className = "nav-button";
-    const getCartSize = useCartStore((state) => state.getCartSize);
+    const cartStore = useCartStore();
+    const getCartSize = useCallback(() => cartStore.getCartSize(), [
+        cartStore.cart
+    ]);
     const cartSize = getCartSize();
     if(type === "link") {
         return (

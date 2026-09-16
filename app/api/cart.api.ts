@@ -1,12 +1,12 @@
 import api from ".";
-import type { CartResponse, CartItemResponse } from "@shop/contracts";
+import type { GetCartResponse, CartItemResponse, AddToCartResponse } from "@shop/contracts";
 
 export const getCart = async () => {
-    return api.get<CartResponse>('/cart');
+    return api.get<GetCartResponse>('/cart');
 };
 
 export const addToCart = async (productId: number) => {
-    return api.post<{ cart: CartResponse, cartItem: CartItemResponse }>('/cart/add-to-cart', {
+    return api.post<AddToCartResponse>('/cart/add-to-cart', {
         productId
     });
 };

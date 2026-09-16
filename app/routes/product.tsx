@@ -40,7 +40,7 @@ export default function ProductPage({
     const { product, recommended } = loaderData;
     const { productId, name, price, category, productDetails, rating, productImages } = product;
     const { description, size, color, author } = productDetails;
-    const cartStore = useCartStore();
+    const addItemToCart = useCartStore((state) => state.addItem);
     const beautifiedPrice = beautifyPrice(price);
 
     const breadCrumbsPaths = [{
@@ -64,6 +64,7 @@ export default function ProductPage({
     async function handleAddToCart() {
         try {
             const { data } = await addToCart(productId);
+            addItemToCart(data);
         } catch {
 
         }

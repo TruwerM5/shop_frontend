@@ -1,10 +1,10 @@
 import { create } from "zustand";
-import type { CartResponse } from "@shop/contracts";
+import type { AddToCartResponse, CartItemResponse, GetCartResponse } from "@shop/contracts";
 import type { CartStore } from "../../types/cart";
 import { getCart } from "~/api/cart.api";
 
 export const useCartStore = create<CartStore>((set, get) => ({
-    cart: <CartResponse>({
+    cart: <GetCartResponse>({
         items: null,
     }),
     fetchCart: async () => {
@@ -20,7 +20,30 @@ export const useCartStore = create<CartStore>((set, get) => ({
         }
         return cart.items.reduce((acc, item) => acc + item.quantity, 0);
     },
-    setItems: (cart: CartResponse) => {
+    addItem: (response: AddToCartResponse) => {
+        const cart = get().cart;
+        const { cartId, userId, expiresAt, createdAt } = response.cart;
+        const { cartItem } = response;
+        const productId = cartItem.product.productId;
+        const quantity = cartItem.quantity;
+        const items: CartItemResponse[] = [...cart.items || []];
+        const productInCart = items.find(item => item.product.productId === productId);
+        if(productInCart) {
+            productInCart.quantity = quantity;
+        } else {
+            items.push(cartItem);
+        }
+        
+        const updatedCart: GetCartResponse = {
+            cartId,
+            userId,
+            expiresAt,
+            createdAt,
+            items,
+        };
+        set({ cart: updatedCart });
+    },
+    setItems: (cart: GetCartResponse) => {
         set({ cart });
     },
 }));

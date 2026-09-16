@@ -1,8 +1,9 @@
-import type { CartItemResponse, CartResponse } from "@shop/contracts";
+import type { AddToCartResponse, CartItemResponse, GetCartResponse } from "@shop/contracts";
 
 export interface CartStore {
-    cart: CartResponse;
+    cart: GetCartResponse;
     fetchCart: () => Promise<void>;
     getCartSize: () => number;
-    setItems: (cart: CartResponse) => void;
+    setItems: (cart: GetCartResponse) => void;
+    addItem: (cart: AddToCartResponse) => void;
 }
