@@ -5,6 +5,7 @@ import { getCart } from "~/api/cart.api";
 
 export const useCartStore = create<CartStore>((set, get) => ({
     cart: <GetCartResponse>({
+        cartId: null,
         items: null,
     }),
     fetchCart: async () => {

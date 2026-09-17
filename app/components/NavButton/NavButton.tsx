@@ -9,7 +9,7 @@ export default function NavButton(props: NavItem) {
     const className = "nav-button";
     const cartStore = useCartStore();
     const getCartSize = useCallback(() => cartStore.getCartSize(), [
-        cartStore.cart
+        cartStore.cart.cartId,
     ]);
     const cartSize = getCartSize();
     if(type === "link") {
