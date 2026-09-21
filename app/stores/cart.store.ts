@@ -9,10 +9,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
         items: null,
     }),
     fetchCart: async () => {
-        const { data } = await getCart();
-        if(!data) {
+        const { data: cart } = await getCart();
+        if(!cart) {
             return;
         }
+        set({ cart });
     },
     getCartSize: (): number => {
         const cart = get().cart;
@@ -47,4 +48,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
     setItems: (cart: GetCartResponse) => {
         set({ cart });
     },
+    clearCart: () => {
+        set({
+            cart: {
+                cartId: null,
+                items: null,
+            }
+        });
+    }
 }));

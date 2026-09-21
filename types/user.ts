@@ -12,4 +12,5 @@ export interface UserStore {
     signUp: (data: SignupRequest) => Promise<UserResponse | boolean>;
     login: (data: LoginRequest) => Promise<UserResponse | boolean>;
     logout: () => Promise<void>;
+    getUserCart: () => Promise<void>;
 }

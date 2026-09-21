@@ -6,4 +6,5 @@ export interface CartStore {
     getCartSize: () => number;
     setItems: (cart: GetCartResponse) => void;
     addItem: (cart: AddToCartResponse) => void;
+    clearCart: () => void;
 }

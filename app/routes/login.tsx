@@ -25,7 +25,7 @@ export default function LoginPage() {
     }
 
     async function submit() {
-       return await login(loginData);
+       return login(loginData);
     }
 
     return (

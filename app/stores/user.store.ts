@@ -2,7 +2,9 @@ import { create } from "zustand";
 import { getUserPayload, signUpUser, loginUser, logoutUser } from "~/api/auth.api";
 import type { UserStore } from "../../types/user";
 import type { UserResponse } from "@shop/contracts";
-export const useUserStore = create<UserStore>((set) => ({
+import { useCartStore } from "./cart.store";
+
+export const useUserStore = create<UserStore>((set, get) => ({
     authStatus: "idle",
     isAuthInitialized: false,
     user: { userId: null },
@@ -60,6 +62,7 @@ export const useUserStore = create<UserStore>((set) => ({
                 user: responseData,
             });
         }
+        await get().getUserCart();
         return responseData;
     },
     logout: async () => {
@@ -72,11 +75,15 @@ export const useUserStore = create<UserStore>((set) => ({
                 authStatus: "unauthenticated",
                 user: { userId: null },
             });
+            useCartStore.getState().clearCart();
         } catch {
             set({
                 authStatus: "unauthenticated",
                 user: { userId: null },
             });
         }
+    },
+    getUserCart: async () => {
+        await useCartStore.getState().fetchCart();
     },
 }));
