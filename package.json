@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@react-router/dev": "^8",
-    "@shop/contracts": "file:../contracts",
+    "@shop/contracts": "file:../shop-contracts",
     "@tailwindcss/vite": "^4.2.2",
     "@types/node": "^22",
     "@types/react": "^19.2.14",
