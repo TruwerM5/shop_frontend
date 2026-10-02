@@ -1,5 +1,13 @@
 .page {
+    max-width: 1280px;
+    margin: 0 auto;
     padding: 15px;
+}
+
+.page__header {
+    font-size: 24px;
+    text-transform: capitalize;
+    margin-bottom: 15px;
 }
 
 @media screen and (min-width: 1024px) {
