@@ -9,7 +9,7 @@ export const getProductById = async (id: number) => {
     return api.get<FullProductItem>(`/products/${id}`);
 }
 
-export const getProductsByCategory = async (category: ProductCategory, productId: number) => {
+export const getProductsByCategory = async (category: ProductCategory, productId?: number) => {
     return api.get<ProductResponse[]>(`/products/category/${category}`, {
         params: {
             excludeId: productId,

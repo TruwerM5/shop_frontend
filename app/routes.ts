@@ -5,6 +5,7 @@ export default [
     route("cart", "routes/cart.tsx"),
     route("orders", "routes/orders.tsx"),
     route("/product/:id", "routes/product.tsx"),
+    route("/catalog/:category", "routes/category.tsx"),
     layout("./layouts/auth.tsx", [
         route("login", "routes/login.tsx"),
         route("signup", "routes/signup.tsx"),
