@@ -38,7 +38,7 @@ export default function Button({
         
     }
 
-    const buttonClassName = clsx(`button ${customClass}`, {
+    const buttonClassName = clsx(`button ${customClass ?? ''}`, {
         "button_primary": isPrimary,
         "button_pending": isPending,
         "button_disbled": isDisabled,

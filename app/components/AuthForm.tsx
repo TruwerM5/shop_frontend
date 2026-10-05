@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from 'react-router';
 import Button from './Button/Button';
 import "@styles/auth-form.css";
 import type { UserResponse } from '@shop/contracts';
+import OAuth from './OAuth/OAuth';
 
 interface AuthFormProps {
     head: React.ReactElement;
@@ -43,6 +44,7 @@ export default function AuthForm({
                     <Button text={action} type="submit" onClick={handleSubmit} />
                 </form>
             </div>
+            <OAuth />
             {action === 'Sign in' ? (
                 <p className="auth-form__text">
                     Don't have an account yet? {' '}

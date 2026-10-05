@@ -1,5 +1,10 @@
 import api from ".";
-import type { UserResponse, LoginRequest, SignupRequest, LogoutRequest } from "@shop/contracts";
+import type { 
+    UserResponse,
+    LoginRequest,
+    SignupRequest,
+    LogoutRequest,
+} from "@shop/contracts";
 
 export const getUserPayload = async () => {
     return api.get<UserResponse>('/auth');
@@ -15,4 +20,9 @@ export const loginUser = async (data: LoginRequest) => {
 
 export const logoutUser = async () => {
     return api.post<LogoutRequest>('/auth/logout');
+}
+
+export const oauthGitHub = async () => {
+    const { data } = await api.get<{ requestUrl: string }>('/auth/github/auth-url');
+    window.location.assign(data.requestUrl);
 }

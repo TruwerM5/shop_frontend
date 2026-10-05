@@ -52,7 +52,7 @@ export default function App() {
   const navLinks = useUserNav();
   const { pathname } = useLocation();
   const setUser = useUserStore((state) => state.setUser);
-  const user = useUserStore((state) => state.user);
+  const isAuthenticated = useUserStore((state) => state.authStatus === 'authenticated');
   const isAuthInitialized = useUserStore((state) => state.isAuthInitialized);
   const setAuthInitialized = useUserStore((state) => state.setAuthInitialized);
   const isProtectedRoute = PROTECTED_ROUTES.some((route) => 
@@ -96,7 +96,7 @@ export default function App() {
     return <GlobalLoading />;
   }
 
-  if(isProtectedRoute && !user.userId) {
+  if(isProtectedRoute && !isAuthenticated) {
     return <Navigate to='/login' state={redirectState} />;
   }
 
