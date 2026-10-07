@@ -1,28 +1,37 @@
 import api from ".";
-import type { 
-    UserResponse,
-    LoginRequest,
-    SignupRequest,
-    LogoutRequest,
+import type {
+  UserResponse,
+  LoginRequest,
+  SignupRequest,
+  LogoutRequest,
 } from "@shop/contracts";
 
 export const getUserPayload = async () => {
-    return api.get<UserResponse>('/auth');
-}
+  return api.get<UserResponse>("/auth");
+};
 
 export const signUpUser = async (data: SignupRequest) => {
-    return api.post<UserResponse>('/auth/signup', data);
-}
+  return api.post<UserResponse>("/auth/signup", data);
+};
 
 export const loginUser = async (data: LoginRequest) => {
-    return api.post<UserResponse>('/auth/login', data);
-}
+  return api.post<UserResponse>("/auth/login", data);
+};
 
 export const logoutUser = async () => {
-    return api.post<LogoutRequest>('/auth/logout');
-}
+  return api.post<LogoutRequest>("/auth/logout");
+};
 
 export const oauthGitHub = async () => {
-    const { data } = await api.get<{ requestUrl: string }>('/auth/github/auth-url');
-    window.location.assign(data.requestUrl);
-}
+  const { data } = await api.get<{ requestUrl: string }>(
+    "/auth/github/auth-url"
+  );
+  window.location.assign(data.requestUrl);
+};
+
+export const oauthYandex = async () => {
+  const { data } = await api.get<{ requestUrl: string }>(
+    "/auth/yandex/auth-url"
+  );
+  window.location.assign(data.requestUrl);
+};
